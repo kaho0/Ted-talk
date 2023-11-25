@@ -4,7 +4,7 @@ import MenuDropdown from './MenuDropdown';
 
 const Navbar = () => {
   return (
-    <div className='fixed w-full bg-gray text-black z-10 bg-opacity-20  shadow-sm'>
+    <div className='fixed w-full bg-gray text-white  z-10 bg-opacity-20  shadow-sm'>
       <div className=' border-b-[1px]'>
         <Container>
           <div className='flex flex-row items-center  justify-between gap-3 md:gap-0'>
