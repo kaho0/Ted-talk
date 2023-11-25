@@ -6,15 +6,15 @@ import avatarImg from '../../../assets/images/placeholder.jpg'
 
 const MenuDropdown = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const { user } = useAuth()
-
+  const { user,logOut } = useAuth()
+  
   return (
     <div className='relative'>
       <div className='flex flex-row items-center gap-3'>
         {/* Become A Host btn */}
         <div className='hidden md:block'>
           <button className='disabled:cursor-not-allowed cursor-pointer hover:bg-neutral-100 py-3 px-4 text-sm font-semibold rounded-full  transition'>
-            Host your home
+            {user && <p>Hi,{user.email}</p>}
           </button>
         </div>
         {/* Dropdown btn */}
@@ -37,27 +37,37 @@ const MenuDropdown = () => {
         </div>
       </div>
       {isOpen && (
-        <div className='absolute rounded-xl shadow-md w-[40vw] md:w-[10vw] bg-white overflow-hidden right-0 top-12 text-sm'>
+        <div className='absolute rounded-xl shadow-md w-[40vw] md:w-[10vw] bg-gray-500 overflow-hidden right-0 top-12 text-sm'>
           <div className='flex flex-col cursor-pointer'>
-            <Link
-              to='/'
-              className='block md:hidden px-4 py-3 hover:bg-neutral-100 transition font-semibold'
-            >
-              Home
-            </Link>
+            {user ? (
+              <>
+                <Link
+                  to='/dashboard'
+                  className='px-4 py-3 hover:bg-blue-500 transition font-semibold'
+                >
+                  Dashboard
+                </Link>
 
-            <Link
-              to='/login'
-              className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
-            >
-              Login
-            </Link>
-            <Link
-              to='/signup'
-              className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
-            >
-              Sign Up
-            </Link>
+                <button className='px-4 py-3 hover:bg-blue-500 transition font-semibold' onClick={logOut}>Log out</button>
+
+              </>
+
+            ) : (
+              <>
+                <Link
+                  to='/login'
+                  className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                >
+                  Login
+                </Link>
+                <Link
+                  to='/signup'
+                  className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}

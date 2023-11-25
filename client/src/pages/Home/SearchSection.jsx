@@ -9,10 +9,10 @@ const SearchSection = () => {
   ];
 
   return (
-   <div className='mt-10'>
+   <div className='mt-5'>
 <Header title='Explore a world of knowledge with our curated tags'></Header>
 
- <div className="bg-blue-400 p-4">
+ <div className="bg-blue-400 p-4 mt-4">
       <div className="flex items-center justify-between ">
         {/* Search Field */}
         <div className="flex-grow pr-4 w-[60%]">
