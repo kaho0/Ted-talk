@@ -33,8 +33,9 @@ const verifyToken = async (req, res, next) => {
     next()
   })
 }
+const uri = `mongodb+srv://${process.env.db_user}:${process.env.db_pass}@cluster0.dqsrrse.mongodb.net/?retryWrites=true&w=majority`;
 
-const client = new MongoClient(process.env.DB_URI, {
+const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
@@ -42,6 +43,11 @@ const client = new MongoClient(process.env.DB_URI, {
   },
 })
 async function run() {
+
+  const BlogDB = client.db("BlogDB").collection("UsersDB");
+  const UsersDB = client.db("BlogDB").collection("UsersDB");
+
+
   try {
     // auth related api
     app.post('/jwt', async (req, res) => {
@@ -76,25 +82,21 @@ async function run() {
     })
 
     // Save or modify user email, status in DB
-    app.put('/users/:email', async (req, res) => {
+
+
+    app.post('/users/:email', async (req, res) => {
       const email = req.params.email
       const user = req.body
       const query = { email: email }
-      const options = { upsert: true }
-      const isExist = await usersCollection.findOne(query)
-      console.log('User found?----->', isExist)
+      const isExist = await UsersDB.findOne(query)
       if (isExist) return res.send(isExist)
-      const result = await usersCollection.updateOne(
-        query,
-        {
-          $set: { ...user, timestamp: Date.now() },
-        },
-        options
-      )
+      const result=await UsersDB.insertOne(user)
       res.send(result)
     })
 
-    // Send a ping to confirm a successful connection
+
+
+
     await client.db('admin').command({ ping: 1 })
     console.log(
       'Pinged your deployment. You successfully connected to MongoDB!'
@@ -107,7 +109,7 @@ async function run() {
 run().catch(console.dir)
 
 app.get('/', (req, res) => {
-  res.send('Hello from StayVista Server..')
+  res.send('connected..')
 })
 
 app.listen(port, () => {
