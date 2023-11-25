@@ -2,7 +2,7 @@
 const Banner = () => {
   return (
     <div
-      className="relative bg-cover bg-center h-[500px] "
+      className="relative bg-cover bg-center min-h-screen "
       style={{ backgroundImage: "url('https://i.ibb.co/4ZLjHqS/top-view-workspace-with-laptop-notebook.jpg')" }}
     >
       {/* Overlay to enhance text visibility */}
