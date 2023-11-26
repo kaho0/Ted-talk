@@ -3,21 +3,45 @@ import { FcGoogle } from 'react-icons/fc'
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
 import { app } from '../../firebase/firebase.config'
 import Navbar from '../../components/Shared/Navbar/Navbar'
-import useAxiosBase from '../../Axios/AxiosBase'
 import AxiosPublic from '../../Axios/AxiosBase'
 
 const SignUp = () => {
   const auth = getAuth(app)
-  const handleSubmit = (e) => {
+  const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+  const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+
+
+  console.log(image_hosting_key)
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target
     const name = form.name.value
     const email = form.email.value
     const password = form.password.value
+
+    const imageInput = form.image;
+    const imageFile = imageInput.files[0];
+
+    const formData = new FormData();
+    formData.append('image', imageFile);
+
     const user = { name, email, password }
+
+    const res = await AxiosPublic.post(image_hosting_api, formData, {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    });
+
+      console.log(res.data)
+    
+
+
 
     createUserWithEmailAndPassword(auth, email, password)
       .then(res => {
+        console.log(user)
         AxiosPublic.post(`/users/${email}`, user)
           .then(res => console.log(res.data))
         console.log(res)
@@ -96,6 +120,10 @@ const SignUp = () => {
                   placeholder='*******'
                   className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
                 />
+              </div>
+              <div>
+                <input type="file" name='image' />
+                <button >Upload Image</button>
               </div>
             </div>
 
