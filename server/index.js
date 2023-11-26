@@ -3,7 +3,7 @@ const app = express()
 require('dotenv').config()
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
-const { MongoClient, ServerApiVersion } = require('mongodb')
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 const jwt = require('jsonwebtoken')
 const morgan = require('morgan')
 const port = process.env.PORT || 8000
@@ -46,7 +46,7 @@ async function run() {
 
   const BlogDB = client.db("BlogDB").collection("UsersDB");
   const UsersDB = client.db("BlogDB").collection("UsersDB");
-  const AllBlogs=client.db("AllBlogsDB").collection("AllBlogs");
+  const AllBlogs = client.db("AllBlogsDB").collection("AllBlogs");
 
   try {
     // auth related api
@@ -90,19 +90,64 @@ async function run() {
       const query = { email: email }
       const isExist = await UsersDB.findOne(query)
       if (isExist) return res.send(isExist)
-      const result=await UsersDB.insertOne(user)
+      const result = await UsersDB.insertOne(user)
       res.send(result)
     })
 
+
+
+
+    // ...........................blogs related...........................................
 
     app.post('/addBlog', async (req, res) => {
       const blog = req.body
-      const result=await AllBlogs.insertOne(blog)
+      const result = await AllBlogs.insertOne(blog)
       res.send(result)
     })
 
+    app.get('/allblogs', async (req, res) => {
+      const result = await AllBlogs.find().toArray()
+      res.send(result)
+
+    })
+
+    app.get('/recentblogs', async (req, res) => {
+      const result = await AllBlogs.find().sort({ dateTime: -1 }).limit(3).toArray();
+      res.send(result);
+
+    });//get 3 recent blogs
 
 
+
+
+
+app.put('/updatevotes/:id', async (req, res) => {
+  try {
+    const { upvotes, downvotes } = req.body;
+    const id = req.params.id;
+    const query = { _id: new ObjectId(id) };
+    const existingBlog = await AllBlogs.findOne(query);
+
+    if (!existingBlog) {
+      return res.status(404).json({ success: false, message: 'Blog not found' });
+    }
+
+ 
+      existingBlog.upvotes = upvotes;
+      existingBlog.downvotes = downvotes;
+
+    await AllBlogs.updateOne(query,
+ { $set: { upvotes: existingBlog.upvotes, downvotes: existingBlog.downvotes } });
+
+    return res.json({ success: true, message: 'Votes updated successfully' });
+  } catch (error) {
+    console.error('Error updating votes:', error);
+    return res.status(500).json({ success: false, message: 'Internal server error' });
+  } 
+});
+
+
+    // .......................................................
 
     await client.db('admin').command({ ping: 1 })
     console.log(
