@@ -4,16 +4,16 @@ import Footer from '../components/Shared/Footer/Footer'
 import Banner from '../pages/Home/Banner'
 import Container from '../components/Shared/Container'
 import SearchSection from '../pages/Home/SearchSection'
+import RecentBlogs from '../pages/Home/RecentBlogs'
 const Main = () => {
   return (
     <div>
       <Navbar />
-          <Banner></Banner>
-<Container>       <SearchSection></SearchSection>
-</Container>
-      <div className='pt-24 min-h-[calc(100vh-68px)]'>
-        <Outlet />
-      </div>
+      <Banner></Banner>
+      <Container>       <SearchSection></SearchSection>
+      </Container>
+
+      <Container><RecentBlogs></RecentBlogs></Container>
       <Footer />
     </div>
   )
