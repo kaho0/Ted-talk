@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 // BlogCard.jsx
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 
+import BlogActions from './BlogActions';
 const BlogCard = ({ post }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
 
@@ -38,6 +39,7 @@ const BlogCard = ({ post }) => {
           </button>
         )}
       </div>
+    <BlogActions post={post}></BlogActions>
     </div>
   );
 };
