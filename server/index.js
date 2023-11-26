@@ -46,7 +46,7 @@ async function run() {
 
   const BlogDB = client.db("BlogDB").collection("UsersDB");
   const UsersDB = client.db("BlogDB").collection("UsersDB");
-
+  const AllBlogs=client.db("AllBlogsDB").collection("AllBlogs");
 
   try {
     // auth related api
@@ -91,6 +91,13 @@ async function run() {
       const isExist = await UsersDB.findOne(query)
       if (isExist) return res.send(isExist)
       const result=await UsersDB.insertOne(user)
+      res.send(result)
+    })
+
+
+    app.post('/addBlog', async (req, res) => {
+      const blog = req.body
+      const result=await AllBlogs.insertOne(blog)
       res.send(result)
     })
 
