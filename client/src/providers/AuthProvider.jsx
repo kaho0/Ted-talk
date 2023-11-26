@@ -12,6 +12,7 @@ import {
   updateProfile,
 } from 'firebase/auth'
 import { app } from '../firebase/firebase.config'
+import AxiosPublic from '../Axios/AxiosBase'
 
 export const AuthContext = createContext(null)
 const auth = getAuth(app)
@@ -57,6 +58,10 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
       setUser(currentUser)
+      const loggedUser = { email: currentUser.email }
+      AxiosPublic.post('jwt', loggedUser)
+        .then(res => console.log(res.data))
+
       console.log('CurrentUser-->', currentUser)
       setLoading(false)
     })
