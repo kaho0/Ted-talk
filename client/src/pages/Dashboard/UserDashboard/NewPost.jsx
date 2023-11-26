@@ -1,29 +1,22 @@
-import React, { useState } from "react";
+import  { useState } from "react";
+import AxiosPublic from "../../../Axios/AxiosBase";
+import { format } from 'date-fns';
+import useAuth from "../../../hooks/useAuth";
 
 const CreatePostForm = () => {
+    const {user}=useAuth()
     const tags = [
         'Technology', 'Travel', 'Food', 'Fashion', 'Health', 'Science', 'Business',
         'Sports', 'Music', 'Art', 'Movies', 'Books', 'Fitness', 'Lifestyle', 'Coding',
     ];
-    const getCurrentDateTime = () => {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const day = String(now.getDate()).padStart(2, '0');
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-
-        return `${year}-${month}-${day} ${hours}:${minutes}`;
-    };
-
 
     const [formData, setFormData] = useState({
         title: '',
         description: '',
         selectedTag: tags[0],
-        dateTime: getCurrentDateTime(),
     });
 
+    const [currentTime, setCurrentTime] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -35,11 +28,27 @@ const CreatePostForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        const now = new Date();
+        const formattedTime = format(now, "do MMMM, hh:mm a");
+        setCurrentTime(formattedTime);
+
         console.log("Form Data:", formData);
+
+        const Author = { name: 'Alice Johnson',
+        image: 'https://i.ibb.co/Ny90SQv/tamara-bellis-e-DVQw-VMLMg-U-unsplash.jpg',
+        email:user?.email };
+
+        const payload = { ...formData, Author, dateTime: currentTime };
+
+        AxiosPublic.post('addBlog', payload).then(res => {
+            console.log(res.data);
+        });
     };
 
     return (
-        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto shadow-xl bg-white p-8">
+
+           <form onSubmit={handleSubmit} className="max-w-4xl mx-auto shadow-xl bg-white p-8">
             <div className="mb-4">
                 <label htmlFor="title" className="block text-sm font-semibold text-gray-600 mb-1">
                     Title
@@ -54,7 +63,6 @@ const CreatePostForm = () => {
                     required
                 />
             </div>
-
 
             <div className="mb-4">
                 <label htmlFor="tags" className="block text-sm font-semibold text-gray-600 mb-1">
@@ -74,8 +82,6 @@ const CreatePostForm = () => {
                 </select>
             </div>
 
-
-            {/* Description Field */}
             <div className="mb-4">
                 <label htmlFor="description" className="block text-sm font-semibold text-gray-600 mb-1">
                     Description
@@ -91,25 +97,20 @@ const CreatePostForm = () => {
                 ></textarea>
             </div>
 
-            {/* Tags Field */}
-
-            {/* Date and Time Field */}
-            {/* <div className="mb-4">
+            <div className="mb-4">
                 <label htmlFor="dateTime" className="block text-sm font-semibold text-gray-600 mb-1">
                     Date and Time
                 </label>
                 <input
-                    type="datetime-local"
+                    type="text"
                     id="dateTime"
                     name="dateTime"
-                    value={formData.dateTime}
-                    onChange={handleChange}
+                    value={currentTime}
                     className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-                    required
+                    readOnly
                 />
-            </div> */}
+            </div>
 
-            {/* Submit Button */}
             <div>
                 <button
                     type="submit"
@@ -119,6 +120,7 @@ const CreatePostForm = () => {
                 </button>
             </div>
         </form>
+
     );
 };
 

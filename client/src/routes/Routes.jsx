@@ -10,6 +10,7 @@ import NewPost from '../pages/Dashboard/UserDashboard/NewPost'
 import UserDashboard from '../layouts/UserDashboard'
 import UserProfile from '../pages/Dashboard/UserDashboard/UserProfile'
 import CreatePostForm from '../pages/Dashboard/UserDashboard/NewPost'
+import Allpost from '../pages/Blogs/AllBlogs'
 
 export const router = createBrowserRouter([
   {
@@ -41,7 +42,7 @@ export const router = createBrowserRouter([
     ],
   },
 
-
+  { path: '/posts', element: <Allpost></Allpost> },
 
   { path: '/login', element: <Login /> },
   { path: '/signup', element: <SignUp /> },

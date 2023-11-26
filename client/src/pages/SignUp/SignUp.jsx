@@ -4,12 +4,13 @@ import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
 import { app } from '../../firebase/firebase.config'
 import Navbar from '../../components/Shared/Navbar/Navbar'
 import AxiosPublic from '../../Axios/AxiosBase'
+import { useState } from 'react'
 
 const SignUp = () => {
   const auth = getAuth(app)
   const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
   const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
-
+  const [profilepic, Setprofilepic] = useState('')
 
   console.log(image_hosting_key)
 
@@ -26,17 +27,16 @@ const SignUp = () => {
     const formData = new FormData();
     formData.append('image', imageFile);
 
-    const user = { name, email, password }
 
     const res = await AxiosPublic.post(image_hosting_api, formData, {
       headers: {
         'content-type': 'multipart/form-data'
       }
     });
-
-      console.log(res.data)
+      console.log(res.data.data.display_url)
+      Setprofilepic(res.data.data.display_url)
     
-
+    const user = { name, email, password, profilepic }
 
 
     createUserWithEmailAndPassword(auth, email, password)
