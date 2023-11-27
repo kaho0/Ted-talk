@@ -11,6 +11,7 @@ import UserDashboard from '../layouts/UserDashboard'
 import UserProfile from '../pages/Dashboard/UserDashboard/UserProfile'
 import CreatePostForm from '../pages/Dashboard/UserDashboard/NewPost'
 import Allpost from '../pages/Blogs/AllBlogs'
+import ManagePosts from '../pages/Dashboard/UserDashboard/ManagePosts'
 
 export const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
       {
         path: '/dash/newpost',
         element: <CreatePostForm></CreatePostForm>,
+      },
+        {
+        path: '/dash/manage',
+        element: <ManagePosts></ManagePosts>,
       },
 
     ],

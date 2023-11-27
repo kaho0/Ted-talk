@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import {  useState } from 'react';
 
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+
 import AxiosPublic from '../../Axios/AxiosBase';
 
 function BlogActions({post}) {
@@ -63,12 +62,10 @@ updateVotesInDatabase(id)
         <div className="flex justify-between items-center px-6">
             <div className={`w-12 h-10 rounded-xl bg-${upvoted ? 'blue' : 'green'}-400 p-1 flex items-center justify-center mb-1`}
              onClick={()=>updateUpvote(post._id)}>
-                <ArrowUpwardIcon title="Upvote this post" />
                 {upvotes}
             </div>
             <div className={`w-12 h-10 rounded-xl bg-${downvoted ? 'blue' : 'red'}-400 p-1 flex items-center justify-center mb-1`} 
             onClick={()=>updateDownvote(post._id)}>
-                <ArrowDownwardIcon title="Downvote this post" />
                 {downvotes}
             </div>
             <div>Comment</div>

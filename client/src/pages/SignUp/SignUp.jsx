@@ -11,7 +11,9 @@ const SignUp = () => {
   const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
   const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
   const [profilepic, Setprofilepic] = useState('')
-
+  const badge = 'silver'
+  const role = 'admin'
+  const totalposts = 0
   console.log(image_hosting_key)
 
   const handleSubmit = async (e) => {
@@ -33,10 +35,10 @@ const SignUp = () => {
         'content-type': 'multipart/form-data'
       }
     });
-      console.log(res.data.data.display_url)
-      Setprofilepic(res.data.data.display_url)
-    
-    const user = { name, email, password, profilepic }
+    console.log(res.data.data.display_url)
+    Setprofilepic(res.data.data.display_url)
+
+    const user = { name, email, password, profilepic,role,badge,totalposts }
 
 
     createUserWithEmailAndPassword(auth, email, password)

@@ -17,11 +17,11 @@ const BlogCard = ({ post }) => {
         <div className="flex items-center mb-4">
           <img
             className="w-10 h-10 rounded-full mr-4"
-            src={post.Author.image}
-            alt={post.Author.name}
+            src={post.image}
+            alt={post.name}
           />
           <div>
-            <p className="text-gray-900 font-semibold">{post.Author.name}</p>
+            <p className="text-gray-900 font-semibold">{post.name}</p>
             <p className="text-gray-600">{post.dateTime}</p>
           </div>
         </div>

@@ -7,7 +7,6 @@ import avatarImg from '../../../assets/images/placeholder.jpg'
 const MenuDropdown = () => {
   const [isOpen, setIsOpen] = useState(false)
   const { user,logOut } = useAuth()
-  
   return (
     <div className='relative'>
       <div className='flex flex-row items-center gap-3'>

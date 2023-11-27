@@ -1,15 +1,21 @@
-import  { useState } from "react";
+import { useState } from "react";
 import AxiosPublic from "../../../Axios/AxiosBase";
 import { format } from 'date-fns';
 import useAuth from "../../../hooks/useAuth";
 
 const CreatePostForm = () => {
-    const {user}=useAuth()
+    const { user } = useAuth()
     const tags = [
         'Technology', 'Travel', 'Food', 'Fashion', 'Health', 'Science', 'Business',
         'Sports', 'Music', 'Art', 'Movies', 'Books', 'Fitness', 'Lifestyle', 'Coding',
     ];
 
+    const name='Alice Johnson'
+    const image='https://i.ibb.co/Ny90SQv/tamara-bellis-e-DVQw-VMLMg-U-unsplash.jpg'
+    const email=user?.email
+    const visivility='public'
+    const upvotes=0
+    const downvotes=0
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -34,12 +40,7 @@ const CreatePostForm = () => {
         setCurrentTime(formattedTime);
 
         console.log("Form Data:", formData);
-
-        const Author = { name: 'Alice Johnson',
-        image: 'https://i.ibb.co/Ny90SQv/tamara-bellis-e-DVQw-VMLMg-U-unsplash.jpg',
-        email:user?.email };
-
-        const payload = { ...formData, Author, dateTime: currentTime };
+        const payload = { ...formData,name,image,email,dateTime: currentTime,visivility,upvotes,downvotes };
 
         AxiosPublic.post('addBlog', payload).then(res => {
             console.log(res.data);
@@ -48,7 +49,7 @@ const CreatePostForm = () => {
 
     return (
 
-           <form onSubmit={handleSubmit} className="max-w-4xl mx-auto shadow-xl bg-white p-8">
+        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto shadow-xl bg-white p-8">
             <div className="mb-4">
                 <label htmlFor="title" className="block text-sm font-semibold text-gray-600 mb-1">
                     Title
