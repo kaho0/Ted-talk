@@ -1,27 +1,22 @@
-import { useEffect, useState } from 'react';
 import useAuth from './useAuth';
 import AxiosPublic from '../Axios/AxiosBase';
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 
 const GetCurrentUser = () => {
   const { user, loading } = useAuth();
   const [userdata, setuserdata] = useState({});
- 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (user && user.email ) {
-          const res = await AxiosPublic.get(`/user?email=${user.email}`);
-          setuserdata(res.data);
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
 
-    if (user) {
-      fetchData();
-    }
-  }, [user]);
+  const { data } = useQuery({
+    queryKey: ['user'], // Include user.email in the queryKey
+    enabled: !loading , // Enable query when not loading and user.email is available
+    queryFn: async () => {
+      const res = await AxiosPublic.get(`/user?email=${user.email}`);
+      console.log(res.data);
+      setuserdata(res.data);
+      return res.data;
+    },
+  });
 
   return userdata;
 };

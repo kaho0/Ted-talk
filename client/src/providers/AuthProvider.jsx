@@ -54,21 +54,23 @@ const AuthProvider = ({ children }) => {
     })
   }
 
-  // onAuthStateChange
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
       setUser(currentUser)
       const loggedUser = { email: currentUser.email }
-      AxiosPublic.post('jwt', loggedUser)
-        .then(res => console.log(res.data))
+      if (currentUser) {
+        AxiosPublic.post('jwt', loggedUser)
+          .then(res => {
+            console.log(res.data)
+            setLoading(false)
 
-      console.log('CurrentUser-->', currentUser)
+          }
 
+          )
 
+        console.log('CurrentUser-->', currentUser)
 
-
-
-      setLoading(false)
+      }
     })
     return () => {
       return unsubscribe()

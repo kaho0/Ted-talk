@@ -3,17 +3,22 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import useAuth from '../../../hooks/useAuth'
 import avatarImg from '../../../assets/images/placeholder.jpg'
+import GetCurrentUser from '../../../hooks/GetCurrentUser'
 
 const MenuDropdown = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const { user,logOut } = useAuth()
+  const { user, logOut,loading } = useAuth()
+  let userdata={}
+  userdata = GetCurrentUser()
+  
+  console.log(userdata, 'here')
   return (
     <div className='relative'>
       <div className='flex flex-row items-center gap-3'>
         {/* Become A Host btn */}
         <div className='hidden md:block'>
           <button className='disabled:cursor-not-allowed cursor-pointer hover:bg-neutral-100 py-3 px-4 text-sm font-semibold rounded-full  transition'>
-            {user && <p>Hi,{user.email}</p>}
+            <p>Hi,{userdata?.name}</p>
           </button>
         </div>
         {/* Dropdown btn */}

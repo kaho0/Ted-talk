@@ -1,4 +1,5 @@
 import { FaAd, FaBook, FaCalendar, FaEnvelope, FaHome, FaList, FaSearch, FaShoppingCart, FaUsers, FaUtensils } from "react-icons/fa";
+import { Link } from "react-router-dom";
 const SideNav = () => {
     const isAdmin = false;
 
@@ -38,9 +39,13 @@ const SideNav = () => {
                             </li>
                             <li className="flex items-center space-x-2">
                                 <FaCalendar />
-                                <span>My Posts</span>
+                                <Link to='/dash/manage'>
+
+                                    <span>My Posts</span>
+
+                                </Link>
                             </li>
-                          
+
                             <li className="flex items-center space-x-2">
                                 <FaAd />
                                 <span>New Post</span>
@@ -52,7 +57,7 @@ const SideNav = () => {
                         </>
                     )}
                     {/* shared nav links */}
-                
+
                 </ul>
             </div>
         </div>

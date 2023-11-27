@@ -1,23 +1,22 @@
-import  { useEffect, useState } from 'react';
 import useAuth from '../../../hooks/useAuth';
 import AxiosPublic from '../../../Axios/AxiosBase';
+import { useQuery } from "@tanstack/react-query";
 
 const ManagePosts = () => {
   const { user, loading } = useAuth();
-  const [data, setData] = useState([]);
-  console.log(user);
 
-  useEffect(() => {
-    if (!user) return;
+  const { data} = useQuery({
+    queryKey: ['cart'],
+    enabled:!loading,
+    queryFn: async () => {
+      const res = await AxiosPublic.get(`/blogs?email=${user.email}`)
+      console.log(res.data)
+      return res.data
 
-    AxiosPublic.get(`/blogs?email=${user.email}`)
-      .then((res) => setData(res.data))
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
-  }, [user]); 
+    }
+  })
 
-  if (loading) return <p>Loading...</p>;
+
 
   return (
     <div>
