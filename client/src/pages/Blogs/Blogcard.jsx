@@ -4,6 +4,7 @@
 import { useState } from 'react';
 
 import BlogActions from './BlogActions';
+import AddCommentModal from './Addcommentmodal';
 const BlogCard = ({ post }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
 
@@ -39,7 +40,13 @@ const BlogCard = ({ post }) => {
           </button>
         )}
       </div>
-    <BlogActions post={post}></BlogActions>
+      <BlogActions post={post}></BlogActions>
+      <div className='ml-[150px] mb-3'>
+        <AddCommentModal id={post._id}></AddCommentModal>
+
+
+      </div>
+
     </div>
   );
 };

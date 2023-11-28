@@ -68,7 +68,6 @@ updateVotesInDatabase(id)
             onClick={()=>updateDownvote(post._id)}>
                 {downvotes}
             </div>
-            <div>Comment</div>
         </div>
     );
 }
