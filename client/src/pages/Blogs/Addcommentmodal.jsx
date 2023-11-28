@@ -22,7 +22,7 @@ const AddCommentModal = ({ id }) => {
     };
 
     const addComment = () => {
-        AxiosPublic.post(`addcomment/${id}`, { comment,email })
+        AxiosPublic.put(`/addcomment/${id}`, { comment,email })
             .then((res) => {
                 console.log(res.data);
                 closeModal();

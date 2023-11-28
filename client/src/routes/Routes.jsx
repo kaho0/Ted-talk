@@ -12,6 +12,7 @@ import UserProfile from '../pages/Dashboard/UserDashboard/UserProfile'
 import CreatePostForm from '../pages/Dashboard/UserDashboard/NewPost'
 import Allpost from '../pages/Blogs/AllBlogs'
 import ManagePosts from '../pages/Dashboard/UserDashboard/ManagePosts'
+import Interactions from '../pages/Dashboard/UserDashboard/Interactions'
 
 export const router = createBrowserRouter([
   {
@@ -38,12 +39,16 @@ export const router = createBrowserRouter([
         element: <UserProfile></UserProfile>,
       },
       {
-        path: '/dash/newpost',
+        path: '/dash/post',
         element: <CreatePostForm></CreatePostForm>,
       },
-        {
+      {
         path: '/dash/manage',
         element: <ManagePosts></ManagePosts>,
+      },
+      {
+        path: '/dash/comment',
+        element: <Interactions></Interactions>,
       },
 
     ],

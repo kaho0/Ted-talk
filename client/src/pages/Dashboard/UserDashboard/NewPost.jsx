@@ -16,6 +16,7 @@ const CreatePostForm = () => {
     const visivility='public'
     const upvotes=0
     const downvotes=0
+    const comments=[]
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -40,7 +41,7 @@ const CreatePostForm = () => {
         setCurrentTime(formattedTime);
 
         console.log("Form Data:", formData);
-        const payload = { ...formData,name,image,email,dateTime: currentTime,visivility,upvotes,downvotes };
+        const payload = { ...formData,name,image,email,dateTime: currentTime,visivility,upvotes,downvotes,comments};
 
         AxiosPublic.post('addBlog', payload).then(res => {
             console.log(res.data);

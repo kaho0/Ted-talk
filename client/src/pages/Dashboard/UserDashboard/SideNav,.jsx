@@ -1,4 +1,4 @@
-import { FaAd, FaBook, FaCalendar, FaEnvelope, FaHome, FaList, FaSearch, FaShoppingCart, FaUsers, FaUtensils } from "react-icons/fa";
+import { FaAd, FaBook, FaCalendar,FaHome, FaList,  FaUsers, FaUtensils } from "react-icons/fa";
 import { Link } from "react-router-dom";
 const SideNav = () => {
     const isAdmin = false;
@@ -35,7 +35,7 @@ const SideNav = () => {
                         <>
                             <li className="flex items-center space-x-2">
                                 <FaHome />
-                                 <Link to='/'>
+                                <Link to='/'>
                                     <span>Home</span>
                                 </Link>
                             </li>
@@ -50,11 +50,17 @@ const SideNav = () => {
 
                             <li className="flex items-center space-x-2">
                                 <FaAd />
-                                <span>New Post</span>
+                                <Link to='/dash/post'>
+                                    <span>New Post</span>
+                                </Link>
+
                             </li>
                             <li className="flex items-center space-x-2">
                                 <FaList />
-                                <span>Interactions on my posts</span>
+                                <Link to='/dash/interactions'>
+                                    <span>Interactions on my posts</span>
+                                </Link>
+
                             </li>
                         </>
                     )}
