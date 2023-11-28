@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 const jwt = require('jsonwebtoken')
 const morgan = require('morgan')
+const stripe = require("stripe")(process.env.Payment_Key)
 const port = process.env.PORT || 8000
 
 // middleware
@@ -33,7 +34,7 @@ async function run() {
   const BlogDB = client.db("BlogDB").collection("UsersDB");
   const UsersDB = client.db("BlogDB").collection("UsersDB");
   const AllBlogs = client.db("AllBlogsDB").collection("AllBlogs");
-  const blogsComment = client.db("AllBlogsDB").collection("comments");
+  const paymentDB = client.db("AllBlogsDB").collection("goldusers");
 
   try {
     // auth related api................................................................
@@ -189,22 +190,73 @@ async function run() {
         },
 
       };
-      const result = await movies.updateOne(query, updateDoc);
+      const result = await UsersDB.updateOne(query, updateDoc);
       res.send(result)
 
     })
 
-    app.post('/addcomment/:id', async (req, res) => {
-      const postid=req.params.id
-      const {comment,email} = req.body
-      const payload={postid,comment,email}
-      const result = await blogsComment.insertOne(payload)
+    app.put('/addcomment/:id', async (req, res) => {
+      try {
+        const id = req.params.id;
+        const commentmade = req.body;
+        console.log(commentmade)
+        const query = { _id: new ObjectId(id) };
+
+        const result = await AllBlogs.updateOne(query, { $push: { comments: commentmade } });
+        console.log(result)
+        if (result.modifiedCount === 0) {
+          return res.status(404).json({ success: false, message: 'Blog not found' });
+        }
+
+        return res.json({ success: true, message: 'Comment added successfully' });
+      } catch (error) {
+        console.error('Error adding comment:', error);
+        return res.status(500).json({ success: false, message: 'Internal server error' });
+      }
+    });
+
+    app.put('/updatebadge/:email', async (req, res) => {
+      const email= req.params.email;
+      const query = { email:email };
+      const updateDoc = {
+        $set: {
+          badge: 'Gold'
+        },
+
+      };
+      const result = await UsersDB.updateOne(query, updateDoc);
       res.send(result)
+
     })
+
 
 
     // .......................................................
 
+    //................payment related//////////
+
+    app.post("/create-payment-intent", async (req, res) => {
+      const { price } = req.body;
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: parseInt(price * 100),
+        currency: "usd",
+        payment_method_types: ['card']
+      });
+
+      res.send({
+        clientSecret: paymentIntent.client_secret,
+      });
+    });
+
+    app.post('/payments', async (req, res) => {
+      const payment = req.body;
+      const paymentResult = await paymentDB.insertOne(payment);
+      res.send({ paymentResult });
+    })
+
+
+
+    //.......................................................................
     await client.db('admin').command({ ping: 1 })
     console.log(
       'Pinged your deployment. You successfully connected to MongoDB!'
