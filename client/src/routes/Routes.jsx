@@ -47,7 +47,7 @@ export const router = createBrowserRouter([
         element: <ManagePosts></ManagePosts>,
       },
       {
-        path: '/dash/comment',
+        path: '/dash/interactions',
         element: <Interactions></Interactions>,
       },
 
