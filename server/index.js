@@ -18,21 +18,7 @@ app.use(cors(corsOptions))
 app.use(express.json())
 app.use(cookieParser())
 app.use(morgan('dev'))
-const verifyToken = async (req, res, next) => {
-  const token = req.cookies?.token
-  console.log(token)
-  if (!token) {
-    return res.status(401).send({ message: 'unauthorized access' })
-  }
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-    if (err) {
-      console.log(err)
-      return res.status(401).send({ message: 'unauthorized access' })
-    }
-    req.user = decoded
-    next()
-  })
-}
+
 const uri = `mongodb+srv://${process.env.db_user}:${process.env.db_pass}@cluster0.dqsrrse.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, {
@@ -47,23 +33,41 @@ async function run() {
   const BlogDB = client.db("BlogDB").collection("UsersDB");
   const UsersDB = client.db("BlogDB").collection("UsersDB");
   const AllBlogs = client.db("AllBlogsDB").collection("AllBlogs");
+  const blogsComment = client.db("AllBlogsDB").collection("comments");
 
   try {
-    // auth related api
+    // auth related api................................................................
     app.post('/jwt', async (req, res) => {
       const user = req.body
-      console.log('I need a new jwt', user)
-      const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: '365d',
+      const token = jwt.sign(user, process.env.Access_Token, { expiresIn: '3h' })
+      console.log(token)
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: false,
+
       })
-      res
-        .cookie('token', token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-        })
-        .send({ success: true })
+      res.send({ success: true })
+
     })
+
+    const verifyToken = async (req, res, next) => {
+      const token = req.cookies?.token
+      console.log(token)
+      if (!token) {
+        return res.status(401).send({ message: 'unauthorized access' })
+      }
+      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+        if (err) {
+          console.log(err)
+          return res.status(401).send({ message: 'unauthorized access' })
+        }
+        req.user = decoded
+        next()
+      })
+    }
+    //.........................................................................................................
+
+
 
     // Logout
     app.get('/logout', async (req, res) => {
@@ -94,6 +98,13 @@ async function run() {
       res.send(result)
     })
 
+    app.get('/user', async (req, res) => {
+      const email = req.query.email
+      const query = { email: email }
+      const result = await UsersDB.findOne(query)
+      res.send(result)
+
+    })
 
 
 
@@ -111,40 +122,85 @@ async function run() {
 
     })
 
+    app.get('/blogs', async (req, res) => {
+      const email = req.query.email
+      console.log(email)
+      const query = { email: email }
+      console.log(query)
+      const result = await AllBlogs.find(query).toArray()
+      res.send(result)
+
+    })
+
+
     app.get('/recentblogs', async (req, res) => {
       const result = await AllBlogs.find().sort({ dateTime: -1 }).limit(3).toArray();
       res.send(result);
 
     });//get 3 recent blogs
 
+    app.delete('/delete/:id', async (req, res) => {
+      const id = req.params.id
+      const query = { _id: new ObjectId(id) };
+      const result = await AllBlogs.deleteOne(query)
+      res.send(result);
+
+    });
 
 
 
+    app.put('/updatevotes/:id', async (req, res) => {
+      try {
+        const { upvotes, downvotes } = req.body;
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const existingBlog = await AllBlogs.findOne(query);
 
-app.put('/updatevotes/:id', async (req, res) => {
-  try {
-    const { upvotes, downvotes } = req.body;
-    const id = req.params.id;
-    const query = { _id: new ObjectId(id) };
-    const existingBlog = await AllBlogs.findOne(query);
+        if (!existingBlog) {
+          return res.status(404).json({ success: false, message: 'Blog not found' });
+        }
 
-    if (!existingBlog) {
-      return res.status(404).json({ success: false, message: 'Blog not found' });
-    }
 
- 
-      existingBlog.upvotes = upvotes;
-      existingBlog.downvotes = downvotes;
 
-    await AllBlogs.updateOne(query,
- { $set: { upvotes: existingBlog.upvotes, downvotes: existingBlog.downvotes } });
+        const result = await AllBlogs.updateOne(
+          query,
+          {
+            $set: {
+              upvotes,
+              downvotes,
+            },
+          }
+        );
 
-    return res.json({ success: true, message: 'Votes updated successfully' });
-  } catch (error) {
-    console.error('Error updating votes:', error);
-    return res.status(500).json({ success: false, message: 'Internal server error' });
-  } 
-});
+        res.send(result);
+      } catch (error) {
+        console.error('Error updating votes:', error);
+        return res.status(500).json({ success: false, message: 'Internal server error' });
+      }
+    });
+
+    app.put('updatevisivility/:id', async (req, res) => {
+      const option = req.body
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          visivility: option
+        },
+
+      };
+      const result = await movies.updateOne(query, updateDoc);
+      res.send(result)
+
+    })
+
+    app.post('/addcomment/:id', async (req, res) => {
+      const postid=req.params.id
+      const {comment,email} = req.body
+      const payload={postid,comment,email}
+      const result = await blogsComment.insertOne(payload)
+      res.send(result)
+    })
 
 
     // .......................................................
