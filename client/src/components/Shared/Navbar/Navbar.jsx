@@ -4,7 +4,7 @@ import MenuDropdown from './MenuDropdown';
 
 const Navbar = () => {
   return (
-    <div className='fixed w-full bg-black text-white  z-10 bg-opacity-50  shadow-sm'>
+    <div className=' w-full bg-black text-white  z-10 bg-opacity-90  shadow-sm'>
       <div className=' border-b-[1px]'>
         <Container>
           <div className='flex flex-row items-center  justify-between gap-3 md:gap-0'>
@@ -17,7 +17,7 @@ const Navbar = () => {
             {/* Left-side Links */}
             <div className='flex space-x-4 '>
               <Link to='/'>Home</Link>
-              <Link to='/contact-us'>Membership</Link>
+              <Link to='/membership'>Membership</Link>
               <Link to='/dash/profile'>Dashboard</Link>
               <Link to='/signup'>Join Us</Link>
             </div>

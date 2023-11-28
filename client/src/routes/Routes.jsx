@@ -13,6 +13,7 @@ import CreatePostForm from '../pages/Dashboard/UserDashboard/NewPost'
 import Allpost from '../pages/Blogs/AllBlogs'
 import ManagePosts from '../pages/Dashboard/UserDashboard/ManagePosts'
 import Interactions from '../pages/Dashboard/UserDashboard/Interactions'
+import StripePay from '../pages/Membership/StripePay'
 
 export const router = createBrowserRouter([
   {
@@ -58,4 +59,6 @@ export const router = createBrowserRouter([
 
   { path: '/login', element: <Login /> },
   { path: '/signup', element: <SignUp /> },
+  { path: '/membership', element: <StripePay></StripePay> },
+
 ])
