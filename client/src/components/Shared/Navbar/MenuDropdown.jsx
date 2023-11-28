@@ -11,7 +11,6 @@ const MenuDropdown = () => {
   let userdata={}
   userdata = GetCurrentUser()
   
-  console.log(userdata, 'here')
   return (
     <div className='relative'>
       <div className='flex flex-row items-center gap-3'>
@@ -32,9 +31,9 @@ const MenuDropdown = () => {
             <img
               className='rounded-full'
               referrerPolicy='no-referrer'
-              src={user && user.photoURL ? user.photoURL : avatarImg}
+              src={userdata && userdata?.profilepic ? userdata.profilepic : avatarImg}
               alt='profile'
-              height='30'
+              height='20'
               width='30'
             />
           </div>

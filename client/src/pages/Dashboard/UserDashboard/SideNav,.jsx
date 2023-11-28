@@ -7,7 +7,7 @@ const SideNav = () => {
         <div className="flex">
             {/* dashboard side bar */}
             <div className="w-full h-[600px] bg-blue-500 text-white">
-                <ul className="menu p-4">
+                <ul className="menu p-4 space-y-3">
                     {isAdmin ? (
                         <>
                             <li className="flex items-center space-x-2">
@@ -35,15 +35,17 @@ const SideNav = () => {
                         <>
                             <li className="flex items-center space-x-2">
                                 <FaHome />
-                                <span>User Home</span>
+                                 <Link to='/'>
+                                    <span>Home</span>
+                                </Link>
                             </li>
                             <li className="flex items-center space-x-2">
                                 <FaCalendar />
+
                                 <Link to='/dash/manage'>
-
                                     <span>My Posts</span>
-
                                 </Link>
+
                             </li>
 
                             <li className="flex items-center space-x-2">
