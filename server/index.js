@@ -152,7 +152,7 @@ async function run() {
 
     app.put('/updatevotes/:id', async (req, res) => {
       try {
-        const { upvotes, downvotes } = req.body;
+        const { upvoted, downvoted} = req.body;
         const id = req.params.id;
         const query = { _id: new ObjectId(id) };
         const existingBlog = await AllBlogs.findOne(query);
@@ -166,12 +166,13 @@ async function run() {
         const result = await AllBlogs.updateOne(
           query,
           {
-            $set: {
-              upvotes,
-              downvotes,
+            $inc: {
+              upvotes: upvoted ? 1 : 0,  
+              downvotes: downvoted ? 1 : 0,  
             },
           }
         );
+
 
         res.send(result);
       } catch (error) {
@@ -216,8 +217,8 @@ async function run() {
     });
 
     app.put('/updatebadge/:email', async (req, res) => {
-      const email= req.params.email;
-      const query = { email:email };
+      const email = req.params.email;
+      const query = { email: email };
       const updateDoc = {
         $set: {
           badge: 'Gold'
