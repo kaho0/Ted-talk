@@ -116,6 +116,16 @@ async function run() {
       const result = await AllBlogs.insertOne(blog)
       res.send(result)
     })
+    app.get('/userposts', async (req, res) => {
+      const email = req.query.email
+      const query = { email: email }
+      const projection = { totalposts: 1, badge: 1 }
+      const result = await UsersDB.findOne(query, { projection: { totalposts: 1, badge: 1 } });
+      console.log(result)
+      res.send(result)
+
+    })
+
 
     app.get('/allblogs', async (req, res) => {
       const result = await AllBlogs.find().toArray()
@@ -152,7 +162,7 @@ async function run() {
 
     app.put('/updatevotes/:id', async (req, res) => {
       try {
-        const { upvoted, downvoted} = req.body;
+        const { upvoted, downvoted } = req.body;
         const id = req.params.id;
         const query = { _id: new ObjectId(id) };
         const existingBlog = await AllBlogs.findOne(query);
@@ -167,8 +177,8 @@ async function run() {
           query,
           {
             $inc: {
-              upvotes: upvoted ? 1 : 0,  
-              downvotes: downvoted ? 1 : 0,  
+              upvotes: upvoted ? 1 : 0,
+              downvotes: downvoted ? 1 : 0,
             },
           }
         );
@@ -231,6 +241,23 @@ async function run() {
     })
 
 
+    app.put('/updatepostcounter', async (req, res) => {
+      const email = req.query.email;
+      const query = { email: email };
+      const updateDoc = {
+        $inc: {
+          totalposts: 1,
+        },
+
+      };
+      const result = await UsersDB.updateOne(query, updateDoc);
+      console.log(result)
+      res.send(result)
+
+    })
+
+
+
 
     // .......................................................
 
@@ -254,6 +281,7 @@ async function run() {
       const paymentResult = await paymentDB.insertOne(payment);
       res.send({ paymentResult });
     })
+
 
 
 
