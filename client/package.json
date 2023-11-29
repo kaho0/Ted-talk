@@ -16,6 +16,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@headlessui/react": "^1.7.17",
+    "@mui/icons-material": "^5.14.18",
     "@mui/material": "^5.14.18",
     "@stripe/react-stripe-js": "^2.4.0",
     "@stripe/stripe-js": "^2.2.0",
