@@ -57,20 +57,21 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
       setUser(currentUser)
-      const loggedUser = { email: currentUser.email }
+      console.log('CurrentUser-->', currentUser)
+
+      const loggedUser = { email: currentUser?.email }
       if (currentUser) {
         AxiosPublic.post('jwt', loggedUser)
           .then(res => {
             console.log(res.data)
-            setLoading(false)
 
           }
-
+          
           )
 
-        console.log('CurrentUser-->', currentUser)
-
       }
+               setLoading(false)
+
     })
     return () => {
       return unsubscribe()

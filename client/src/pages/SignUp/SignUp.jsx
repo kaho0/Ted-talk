@@ -12,7 +12,7 @@ const SignUp = () => {
   const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
   const [profilepic, Setprofilepic] = useState('')
   const badge = 'silver'
-  const role = 'admin'
+  const role = 'user'
   const totalposts = 0
   console.log(image_hosting_key)
 

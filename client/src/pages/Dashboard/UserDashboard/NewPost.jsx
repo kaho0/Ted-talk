@@ -53,6 +53,8 @@ const CreatePostForm = () => {
         console.log(payload)
         AxiosPublic.post('addBlog', payload).then(res => {
             console.log(res.data);
+         AxiosPublic.put(`/updatepostcounter?email=${user.email}`)
+         .then(res=>console.log(res.data))
         });
     };
 

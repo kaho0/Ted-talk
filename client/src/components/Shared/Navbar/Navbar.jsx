@@ -20,6 +20,8 @@ const Navbar = () => {
               <Link to='/membership'>Membership</Link>
               <Link to='/dash/profile'>Dashboard</Link>
               <Link to='/signup'>Join Us</Link>
+              <Link to='/allblogs'>Blogs</Link>
+
             </div>
 
             {/* Dropdown Menu */}

@@ -12,7 +12,6 @@ const GetTotalposts = () => {
     enabled: !loading , 
     queryFn: async () => {
       const res = await AxiosPublic.get(`/userposts?email=${user.email}`);
-      console.log('posts',res.data);
       settotalposts(res.data);
       return res.data;
     },

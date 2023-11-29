@@ -13,7 +13,8 @@ const BlogCard = ({ post }) => {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white shadow-lg rounded-md overflow-hidden mb-8 ml-2 flex flex-col justify-between">
+
+    <div className="max-w-md mx-auto bg-emerald-100 shadow-lg rounded-md overflow-hidden mb-8 ml-2 flex flex-col justify-between">
       <div className="p-6">
         <div className="flex items-center mb-4">
           <img
@@ -48,6 +49,7 @@ const BlogCard = ({ post }) => {
       </div>
 
     </div>
+
   );
 };
 

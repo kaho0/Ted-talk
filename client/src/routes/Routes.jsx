@@ -14,7 +14,8 @@ import Allpost from '../pages/Blogs/AllBlogs'
 import ManagePosts from '../pages/Dashboard/UserDashboard/ManagePosts'
 import Interactions from '../pages/Dashboard/UserDashboard/Interactions'
 import StripePay from '../pages/Membership/StripePay'
-
+import PrivateRoute from './PrivateRoute'
+import ViewBlogs from '../pages/Blogs/ViewBlogs'
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -32,7 +33,7 @@ export const router = createBrowserRouter([
 
   {
     path: '/dash',
-    element: <Container><UserDashboard></UserDashboard></Container>,
+    element: <Container><PrivateRoute><UserDashboard></UserDashboard></PrivateRoute></Container>,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -56,6 +57,8 @@ export const router = createBrowserRouter([
   },
 
   { path: '/posts', element: <Allpost></Allpost> },
+
+  { path: '/allblogs', element: <ViewBlogs></ViewBlogs> },
 
   { path: '/login', element: <Login /> },
   { path: '/signup', element: <SignUp /> },
