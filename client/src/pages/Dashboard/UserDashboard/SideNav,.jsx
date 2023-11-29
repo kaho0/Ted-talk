@@ -1,8 +1,7 @@
-import { FaAd, FaBook, FaCalendar,FaHome, FaList,  FaUsers, FaUtensils } from "react-icons/fa";
+import { FaAd, FaBook, FaCalendar, FaHome, FaList, FaUsers, FaUtensils } from "react-icons/fa";
 import { Link } from "react-router-dom";
 const SideNav = () => {
     const isAdmin = false;
-
     return (
         <div className="flex">
             {/* dashboard side bar */}

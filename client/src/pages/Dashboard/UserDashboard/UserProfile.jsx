@@ -3,8 +3,11 @@ import useAuth from '../../../hooks/useAuth';
 
 const UserProfile = () => {
     const { user } = useAuth();
-    const userdata = GetCurrentUser();
 
+    let userdata={}
+    userdata = GetCurrentUser();
+
+   
     return (
         <div className='shadow-xl'>
             <div className="w-full mx-auto bg-white p-8 rounded  h-[200px]  ">
@@ -12,7 +15,7 @@ const UserProfile = () => {
 
                 <div className="flex items-center mb-4">
                     <img
-                        src={userdata?.profilepic} // Assuming profilePic is the URL of the profile picture
+                        src={userdata?.profilepic} 
                         alt="Profile"
                         className="w-20 h-20 rounded-full mr-4"
                     />
@@ -22,7 +25,6 @@ const UserProfile = () => {
                     </div>
                 </div>
 
-                {/* Display user badge (if applicable) */}
                 {userdata.badge && (
                     <div className="mb-4">
                         <span className=" text-orange-500 rounded-md font-semibold">
@@ -31,9 +33,7 @@ const UserProfile = () => {
                     </div>
                 )}
 
-                {/* Display total posts */}
                 <p className="text-gray-700 mb-4 font-semibold">
-                    Total Posts: {userdata?.totalPosts ? userdata?.totalPosts : 0}
                 </p>
 
 
@@ -41,7 +41,6 @@ const UserProfile = () => {
             <div className="w-full mx-auto bg-white p-8 rounded  h-[400px] mt-6">
                 <h1 className="text-2xl font-semibold mb-4">Instructions</h1>
 
-                {/* My Posts Tab */}
                 <div className="mb-4">
                     <h2 className="text-lg font-semibold mb-2">My Posts</h2>
                     <p className="text-gray-700">
@@ -49,7 +48,6 @@ const UserProfile = () => {
                     </p>
                 </div>
 
-                {/* New Post Tab */}
                 <div className="mb-4">
                     <h2 className="text-lg font-semibold mb-2">New Post</h2>
                     <p className="text-gray-700">
@@ -58,7 +56,6 @@ const UserProfile = () => {
                     </p>
                 </div>
 
-                {/* Interactions on My Post Tab */}
                 <div className="mb-6">
                     <h2 className="text-lg font-semibold mb-2">Interactions on My Post</h2>
                     <p className="text-gray-700">
@@ -67,7 +64,6 @@ const UserProfile = () => {
                     </p>
                 </div>
 
-                {/* Add more tabs and instructions as needed */}
             </div>
 
         </div>

@@ -1,29 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AxiosPublic from "../../../Axios/AxiosBase";
 import { format } from 'date-fns';
 import useAuth from "../../../hooks/useAuth";
+import GetTotalposts from "../../../hooks/GetTotalposts";
+import GetCurrentUser from "../../../hooks/GetCurrentUser";
 
 const CreatePostForm = () => {
-    const { user } = useAuth()
+     let totalpost={}
+     totalpost = GetTotalposts();
+    const { totalposts, badge } = totalpost;
+    const { user } = useAuth();
+    const userdata = GetCurrentUser()
+    const name = userdata.name
+    const image = userdata.profilepic
+    const email = user?.email
+    const visivility = 'public'
+    const upvotes = 0
+    const downvotes = 0
     const tags = [
         'Technology', 'Travel', 'Food', 'Fashion', 'Health', 'Science', 'Business',
         'Sports', 'Music', 'Art', 'Movies', 'Books', 'Fitness', 'Lifestyle', 'Coding',
     ];
+    const comments = []
 
-    const name='Alice Johnson'
-    const image='https://i.ibb.co/Ny90SQv/tamara-bellis-e-DVQw-VMLMg-U-unsplash.jpg'
-    const email=user?.email
-    const visivility='public'
-    const upvotes=0
-    const downvotes=0
-    const comments=[]
+
     const [formData, setFormData] = useState({
         title: '',
         description: '',
         selectedTag: tags[0],
     });
-
     const [currentTime, setCurrentTime] = useState('');
+
+    useEffect(() => {
+        const now = new Date();
+        const formattedTime = format(now, "do MMMM, hh:mm a");
+        setCurrentTime(formattedTime);
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -36,20 +48,25 @@ const CreatePostForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const now = new Date();
-        const formattedTime = format(now, "do MMMM, hh:mm a");
-        setCurrentTime(formattedTime);
-
         console.log("Form Data:", formData);
-        const payload = { ...formData,name,image,email,dateTime: currentTime,visivility,upvotes,downvotes,comments};
-
+        const payload = { ...formData, name, image, email, dateTime: currentTime, visivility, upvotes, downvotes, comments };
+        console.log(payload)
         AxiosPublic.post('addBlog', payload).then(res => {
             console.log(res.data);
         });
     };
 
-    return (
+    // Render logic based on user's badge and total posts
+    if (badge === 'silver' && totalposts >= 5) {
+        return (
+            <div className="max-w-4xl mx-auto bg-white p-8">
+                <p className="text-red-500 text-lg font-semibold">You have reached the limit of 5 posts with a silver badge.</p>
+                <p className="text-blue-500 text-lg font-semibold">Upgrade to a gold badge by purchasing our membership to post without limitations!</p>
+            </div>
+        );
+    }
 
+    return (
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto shadow-xl bg-white p-8">
             <div className="mb-4">
                 <label htmlFor="title" className="block text-sm font-semibold text-gray-600 mb-1">
@@ -122,7 +139,6 @@ const CreatePostForm = () => {
                 </button>
             </div>
         </form>
-
     );
 };
 

@@ -8,8 +8,6 @@ import AxiosPublic from '../../Axios/AxiosBase';
 function BlogActions({ post }) {
     const [upvoted, setUpvoted] = useState(false);
     const [downvoted, setDownvoted] = useState(false);
-    const [upvotes, setUpvotes] = useState(0);
-    const [downvotes, setDownvotes] = useState(0);
 
     useEffect(() => {
         const likedPosts = JSON.parse(localStorage.getItem('likedPosts')) || [];
@@ -26,8 +24,8 @@ function BlogActions({ post }) {
 
     const updateVotesInDatabase = (id) => {
         const payload = {
-            upvotes: upvotes,
-            downvotes: downvotes,
+            upvoted: upvoted,
+            downvoted: downvoted,
         }
 
         AxiosPublic.put(`updatevotes/${id}`, payload)
@@ -37,17 +35,14 @@ function BlogActions({ post }) {
     const toggleUpvote = (id) => {
         if (upvoted) {
             setUpvoted(false);
-            setUpvotes(upvotes - 1);
             removePostFromLocalStorage(id, 'likedPosts');
         } else {
             setUpvoted(true);
-            setUpvotes(upvotes + 1);
             addPostToLocalStorage(id, 'likedPosts');
         }
 
         if (downvoted) {
             setDownvoted(false);
-            setDownvotes(downvotes - 1);
             removePostFromLocalStorage(id, 'dislikedPosts');
         }
 
@@ -57,17 +52,14 @@ function BlogActions({ post }) {
     const toggleDownvote = (id) => {
         if (downvoted) {
             setDownvoted(false);
-            setDownvotes(downvotes - 1);
             removePostFromLocalStorage(id, 'dislikedPosts');
         } else {
             setDownvoted(true);
-            setDownvotes(downvotes + 1);
             addPostToLocalStorage(id, 'dislikedPosts');
         }
 
         if (upvoted) {
             setUpvoted(false);
-            setUpvotes(upvotes - 1);
             removePostFromLocalStorage(id, 'likedPosts');
         }
 
