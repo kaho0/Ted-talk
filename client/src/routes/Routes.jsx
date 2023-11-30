@@ -16,8 +16,8 @@ import PrivateRoute from './PrivateRoute'
 import ViewBlogs from '../pages/Blogs/ViewBlogs'
 import ManageUsers from '../pages/AdminDashboard/ManageUsers'
 import AdminRoute from './AdminRoute'
-import Annoucement from '../pages/AdminDashboard/Annoucement'
 import Analytics from '../pages/AdminDashboard/Analytics'
+import Announcement from '../pages/AdminDashboard/Annoucement'
 
 export const router = createBrowserRouter([
   {
@@ -66,7 +66,7 @@ export const router = createBrowserRouter([
 
        {
         path: '/dash/makeannoucement',
-        element: <AdminRoute><Annoucement></Annoucement></AdminRoute>,
+        element: <AdminRoute><Announcement></Announcement></AdminRoute>,
       },
    
  {

@@ -17,7 +17,7 @@ const SideNav = () => {
                                 </li>
                             </Link>
 
-                            <Link to='/dash/annoucement'>
+                            <Link to='/dash/makeannoucement'>
                                 <li className="flex items-center space-x-2">
                                     <FaHome />
                                     <span>Make Annoucements</span>
