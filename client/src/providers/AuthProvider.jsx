@@ -13,6 +13,7 @@ import {
 } from 'firebase/auth'
 import { app } from '../firebase/firebase.config'
 import AxiosPublic from '../Axios/AxiosBase'
+import AxiosSecure from '../Axios/AxiosSecure'
 
 export const AuthContext = createContext(null)
 const auth = getAuth(app)
@@ -61,7 +62,7 @@ const AuthProvider = ({ children }) => {
 
       const loggedUser = { email: currentUser?.email }
       if (currentUser) {
-        AxiosPublic.post('jwt', loggedUser)
+        AxiosSecure.post('jwt', loggedUser)
           .then(res => {
             console.log(res.data)
 

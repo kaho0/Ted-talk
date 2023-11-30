@@ -1,7 +1,8 @@
-import { FaAd, FaBook, FaCalendar, FaHome, FaList, FaUsers, FaUtensils } from "react-icons/fa";
+import { FaAd,  FaCalendar, FaHome, FaList } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useAdmin from "../../../hooks/useAdmin";
 const SideNav = () => {
-    const isAdmin = false;
+    const isAdmin = useAdmin();
     return (
         <div className="flex">
             {/* dashboard side bar */}
@@ -9,26 +10,40 @@ const SideNav = () => {
                 <ul className="menu p-4 space-y-3">
                     {isAdmin ? (
                         <>
-                            <li className="flex items-center space-x-2">
-                                <FaHome />
-                                <span>Admin Home</span>
-                            </li>
-                            <li className="flex items-center space-x-2">
-                                <FaUtensils />
-                                <span>Add Items</span>
-                            </li>
-                            <li className="flex items-center space-x-2">
-                                <FaList />
-                                <span>Manage Items</span>
-                            </li>
-                            <li className="flex items-center space-x-2">
-                                <FaBook />
-                                <span>Manage Bookings</span>
-                            </li>
-                            <li className="flex items-center space-x-2">
-                                <FaUsers />
-                                <span>All Users</span>
-                            </li>
+                            <Link to='/'>
+                                <li className="flex items-center space-x-2">
+                                    <FaHome />
+                                    <span>Home</span>
+                                </li>
+                            </Link>
+
+                            <Link to='/dash/annoucement'>
+                                <li className="flex items-center space-x-2">
+                                    <FaHome />
+                                    <span>Make Annoucements</span>
+                                </li>
+                            </Link>
+
+                            <Link to='/dash/manageusers'>
+                                <li className="flex items-center space-x-2">
+                                    <FaHome />
+                                    <span>Manage Users</span>
+                                </li>
+                            </Link>
+
+                            <Link to='/dash/analytics'>
+                                <li className="flex items-center space-x-2">
+                                    <FaHome />
+                                    <span>Analytics</span>
+                                </li>
+                            </Link>
+
+                            {/* <Link to='/'>
+                                <li className="flex items-center space-x-2">
+                                    <FaHome />
+                                    <span></span>
+                                </li>
+                            </Link> */}
                         </>
                     ) : (
                         <>

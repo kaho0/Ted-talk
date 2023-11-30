@@ -4,9 +4,7 @@ import Home from '../pages/Home/Home'
 import ErrorPage from '../pages/ErrorPage'
 import Login from '../pages/Login/Login'
 import SignUp from '../pages/SignUp/SignUp'
-import UserDash from '../pages/Dashboard/UserDashboard/UserDash'
 import Container from '../components/Shared/Container'
-import NewPost from '../pages/Dashboard/UserDashboard/NewPost'
 import UserDashboard from '../layouts/UserDashboard'
 import UserProfile from '../pages/Dashboard/UserDashboard/UserProfile'
 import CreatePostForm from '../pages/Dashboard/UserDashboard/NewPost'
@@ -16,6 +14,11 @@ import Interactions from '../pages/Dashboard/UserDashboard/Interactions'
 import StripePay from '../pages/Membership/StripePay'
 import PrivateRoute from './PrivateRoute'
 import ViewBlogs from '../pages/Blogs/ViewBlogs'
+import ManageUsers from '../pages/AdminDashboard/ManageUsers'
+import AdminRoute from './AdminRoute'
+import Annoucement from '../pages/AdminDashboard/Annoucement'
+import Analytics from '../pages/AdminDashboard/Analytics'
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -51,6 +54,24 @@ export const router = createBrowserRouter([
       {
         path: '/dash/interactions',
         element: <Interactions></Interactions>,
+      },
+
+
+
+
+      {
+        path: '/dash/manageusers',
+        element: <AdminRoute><ManageUsers></ManageUsers></AdminRoute>,
+      },
+
+       {
+        path: '/dash/makeannoucement',
+        element: <AdminRoute><Annoucement></Annoucement></AdminRoute>,
+      },
+   
+ {
+        path: '/dash/analytics',
+        element: <AdminRoute><Analytics></Analytics></AdminRoute>,
       },
 
     ],
