@@ -1,13 +1,12 @@
 {
   "name": "stay-vista-server",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
- "engines": {
+  "engines": {
     "node": ">=18.17.0 <19.0.0"
   },
   "keywords": [],
@@ -24,5 +23,5 @@
     "mongodb": "^6.2.0",
     "morgan": "^1.10.0",
     "stripe": "^14.5.0"
-  }
+  },
 }
