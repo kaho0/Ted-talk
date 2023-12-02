@@ -4,7 +4,8 @@ import useAuth from "../../hooks/useAuth";
 
 import { useState } from 'react';
 import Modal from 'react-modal';
-import AxiosPublic from '../../Axios/AxiosBase';
+import AxiosSecure from "../../Axios/AxiosSecure";
+import Swal from "sweetalert2";
 
 const AddCommentModal = ({ id }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -22,9 +23,16 @@ const AddCommentModal = ({ id }) => {
     };
 
     const addComment = () => {
-        AxiosPublic.put(`/addcomment/${id}`, { comment,email })
+        AxiosSecure.put(`/addcomment/${id}`, { comment, email })
             .then((res) => {
                 console.log(res.data);
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: 'Comment Added',
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
                 closeModal();
             })
             .catch((error) => {

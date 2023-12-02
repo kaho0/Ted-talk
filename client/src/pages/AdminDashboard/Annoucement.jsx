@@ -1,5 +1,6 @@
 import { useState } from "react";
-import AxiosPublic from "../../Axios/AxiosBase";
+import Swal from "sweetalert2";
+import AxiosSecure from "../../Axios/AxiosSecure";
 
 const Announcement = () => {
   const [announcementTitle, setAnnouncementTitle] = useState('');
@@ -27,9 +28,19 @@ const Announcement = () => {
       time: currentTime,
     };
 
-    AxiosPublic.post('notice', announcementData)
+    AxiosSecure.post('notice', announcementData)
       .then(res => {
-        console.log(res.data);
+        if (res.data) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: 'Announcement Added',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+
+        }
       })
       .catch(error => {
         console.error("Error submitting announcement:", error);

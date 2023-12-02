@@ -2,7 +2,8 @@ import { FaAd,  FaCalendar, FaHome, FaList } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useAdmin from "../../../hooks/useAdmin";
 const SideNav = () => {
-    const isAdmin = useAdmin();
+    const [isAdmin,isAdminLoading] = useAdmin();
+   if(isAdminLoading) return <p className="text-center text-xl">loading</p>
     return (
         <div className="flex">
             {/* dashboard side bar */}

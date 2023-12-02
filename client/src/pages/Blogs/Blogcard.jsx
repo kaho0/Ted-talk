@@ -3,6 +3,9 @@
 
 import { useState } from 'react';
 
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+
 import BlogActions from './BlogActions';
 import AddCommentModal from './Addcommentmodal';
 const BlogCard = ({ post }) => {
@@ -40,6 +43,12 @@ const BlogCard = ({ post }) => {
             {showFullDescription ? 'Read Less' : 'Read More'}
           </button>
         )}
+
+       <div className='flex space-x-1'>
+        <p><ArrowUpwardIcon></ArrowUpwardIcon> <span>{post.upvotes}</span></p>
+        <p><ArrowDownwardIcon></ArrowDownwardIcon> <span>{post.downvotes}</span></p>
+       </div>
+
       </div>
       <BlogActions post={post}></BlogActions>
       <div className='ml-[150px] mb-3'>

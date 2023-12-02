@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import AxiosPublic from "../../Axios/AxiosBase";
 import AlertMessage from "../../hooks/UseAlert";
+import AxiosSecure from "../../Axios/AxiosSecure";
 
 const ManageUsers = () => {
 
     const [users, setusers] = useState([])
 
     useEffect(() => {
-        AxiosPublic.get('allusers')
+        AxiosSecure.get('allusers')
             .then(res => {
                 setusers(res.data)
             })
@@ -15,13 +15,14 @@ const ManageUsers = () => {
 
     }, [])
 
-const handledelete=(id)=>{
-AxiosPublic.delete(`/deleteuser?id=${id}`)
+    const handledelete = (id) => {
+        AxiosSecure.delete(`/deleteuser?id=${id}`)
 
-.then(res=>{           <AlertMessage title={'Delete Successful'}></AlertMessage>
-})
+            .then(res => {
+                <AlertMessage title={'Delete Successful'}></AlertMessage>
+            })
 
-}
+    }
 
 
 
@@ -43,7 +44,7 @@ AxiosPublic.delete(`/deleteuser?id=${id}`)
                         users.map(user =>
 
                             <tr key={user._id}>
-                             
+
                                 <td>
                                     <div className="flex items-center gap-3">
                                         <div className="avatar">
@@ -61,7 +62,7 @@ AxiosPublic.delete(`/deleteuser?id=${id}`)
                                     <br />
                                 </td>
                                 <th>
-                                    <button className="btn btn-danger text-xl" onClick={()=>handledelete(user._id)}>delete</button>
+                                    <button className="btn btn-danger text-xl" onClick={() => handledelete(user._id)}>delete</button>
                                 </th>
                             </tr>
 

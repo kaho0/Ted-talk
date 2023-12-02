@@ -3,7 +3,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { useContext } from 'react'
 import { AuthContext } from '../../providers/AuthProvider'
 import Navbar from '../../components/Shared/Navbar/Navbar'
-import AlertMessage from '../../hooks/UseAlert'
+import Swal from 'sweetalert2'
 
 const Login = () => {
   const { signInWithGoogle, signIn } = useContext(AuthContext)
@@ -15,9 +15,18 @@ const Login = () => {
     const password = form.password.value
     signIn(email, password)
       .then(res => {
-         console.log(res.data);
-        // <AlertMessage title={'Login Successful'}></AlertMessage>
+        console.log(res)
+        if (res) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: 'Login Succesful',
+            showConfirmButton: false,
+            timer: 1500,
+          });
 
+
+        }
 
       })
   }

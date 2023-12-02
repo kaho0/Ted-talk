@@ -4,11 +4,12 @@ import { format } from 'date-fns';
 import useAuth from "../../../hooks/useAuth";
 import GetTotalposts from "../../../hooks/GetTotalposts";
 import GetCurrentUser from "../../../hooks/GetCurrentUser";
-import AlertMessage from "../../../hooks/UseAlert";
+import Swal from "sweetalert2";
+import AxiosSecure from "../../../Axios/AxiosSecure";
 
 const CreatePostForm = () => {
-     let totalpost={}
-     totalpost = GetTotalposts();
+    let totalpost = {}
+    totalpost = GetTotalposts();
     const { totalposts, badge } = totalpost;
     const { user } = useAuth();
     const userdata = GetCurrentUser()
@@ -52,20 +53,25 @@ const CreatePostForm = () => {
         console.log("Form Data:", formData);
         const payload = { ...formData, name, image, email, dateTime: currentTime, visivility, upvotes, downvotes, comments };
         console.log(payload)
-        AxiosPublic.post('addBlog', payload).then(res => {
+        AxiosSecure.post('addBlog', payload).then(res => {
             console.log(res.data);
-         AxiosPublic.put(`/updatepostcounter?email=${user.email}`)
-         .then(res=>{
-           console.log(res.data);
-           if(res.data.modifiedCount>0){
-           <AlertMessage title={'Post Successful'}></AlertMessage>}
+            AxiosPublic.put(`/updatepostcounter?email=${user.email}`)
+                .then(res => {
+                    console.log(res.data);
+                    if (res.data.acknowledged > 0) {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: 'New Post Created',
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
 
 
-           })
+                    }})
         });
     };
 
-    // Render logic based on user's badge and total posts
     if (badge === 'silver' && totalposts >= 5) {
         return (
             <div className="max-w-4xl mx-auto bg-white p-8">

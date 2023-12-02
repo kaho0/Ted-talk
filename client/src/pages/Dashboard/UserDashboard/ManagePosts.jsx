@@ -1,7 +1,7 @@
 import useAuth from '../../../hooks/useAuth';
-import AxiosPublic from '../../../Axios/AxiosBase';
 import { useQuery } from "@tanstack/react-query";
 import UserblogCard from './UserblogCard';
+import AxiosSecure from '../../../Axios/AxiosSecure';
 
 const ManagePosts = () => {
   const { user, loading } = useAuth();
@@ -10,7 +10,7 @@ const ManagePosts = () => {
     queryKey: ['cart'],
     enabled: !loading,
     queryFn: async () => {
-      const res = await AxiosPublic.get(`/blogs?email=${user.email}`)
+      const res = await AxiosSecure.get(`/blogs?email=${user.email}`)
       console.log(res.data)
       return res.data
 

@@ -5,7 +5,7 @@ import { app } from '../../firebase/firebase.config'
 import Navbar from '../../components/Shared/Navbar/Navbar'
 import AxiosPublic from '../../Axios/AxiosBase'
 import { useState } from 'react'
-import AlertMessage from '../../hooks/UseAlert'
+import Swal from 'sweetalert2'
 
 const SignUp = () => {
   const auth = getAuth(app)
@@ -39,7 +39,7 @@ const SignUp = () => {
     console.log(res.data.data.display_url)
     Setprofilepic(res.data.data.display_url)
 
-    const user = { name, email, password, profilepic,role,badge,totalposts }
+    const user = { name, email, password, profilepic, role, badge, totalposts }
 
 
     createUserWithEmailAndPassword(auth, email, password)
@@ -47,10 +47,19 @@ const SignUp = () => {
         console.log(user)
         AxiosPublic.post(`/users/${email}`, user)
           .then(res => {
-           <AlertMessage title={'SignUp Successful'}></AlertMessage>
+            if (res) {
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: 'SignUp Succesful',
+                showConfirmButton: false,
+                timer: 1500,
+              });
 
 
-             })
+            }
+
+          })
 
         console.log(res)
       })

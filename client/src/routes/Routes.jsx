@@ -8,7 +8,6 @@ import Container from '../components/Shared/Container'
 import UserDashboard from '../layouts/UserDashboard'
 import UserProfile from '../pages/Dashboard/UserDashboard/UserProfile'
 import CreatePostForm from '../pages/Dashboard/UserDashboard/NewPost'
-import Allpost from '../pages/Blogs/AllBlogs'
 import ManagePosts from '../pages/Dashboard/UserDashboard/ManagePosts'
 import Interactions from '../pages/Dashboard/UserDashboard/Interactions'
 import StripePay from '../pages/Membership/StripePay'
@@ -77,7 +76,6 @@ export const router = createBrowserRouter([
     ],
   },
 
-  { path: '/posts', element: <Allpost></Allpost> },
 
   { path: '/allblogs', element: <ViewBlogs></ViewBlogs> },
 

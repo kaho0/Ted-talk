@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 // Changeprivacy.jsx
 
-import  { useState } from 'react';
+import { useState } from 'react';
 import Modal from 'react-modal';
-import AxiosPublic from '../../../Axios/AxiosBase';
-import AlertMessage from '../../../hooks/UseAlert';
+import AxiosSecure from '../../../Axios/AxiosSecure';
+import Swal from 'sweetalert2';
 
 const Changeprivacy = ({ id, option, refetch }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -18,9 +18,20 @@ const Changeprivacy = ({ id, option, refetch }) => {
     };
 
     const changeVisivility = (id) => {
-        AxiosPublic.put(`updatevisivility/${id}`)
-            .then((res) => {           <AlertMessage title={'Privacy Updated'}></AlertMessage>
-})
+        AxiosSecure.put(`updatevisivility/${id}`)
+            .then((res) => {
+                if (res.data) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: 'Privacy Updated',
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+
+
+                }
+            })
         refetch();
     };
 
