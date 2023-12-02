@@ -7,10 +7,11 @@ import GetCurrentUser from '../../../hooks/GetCurrentUser'
 
 const MenuDropdown = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const { user, logOut,loading } = useAuth()
-  let userdata={}
+  const { user, logOut, loading } = useAuth()
+  let userdata = {}
   userdata = GetCurrentUser()
-  
+
+
   return (
     <div className='relative'>
       <div className='flex flex-row items-center gap-3'>
@@ -19,6 +20,11 @@ const MenuDropdown = () => {
           <button className='disabled:cursor-not-allowed cursor-pointer hover:bg-neutral-100 py-3 px-4 text-sm font-semibold rounded-full  transition'>
             <p>Hi,{userdata?.name}</p>
           </button>
+          {user && <button className='px-4 py-3 hover:bg-blue-500 transition font-semibold' onClick={() => {
+            logOut()
+            userdata = {}
+          }}>Log out</button>}
+
         </div>
         {/* Dropdown btn */}
         <div
@@ -51,7 +57,6 @@ const MenuDropdown = () => {
                   Dashboard
                 </Link>
 
-                <button className='px-4 py-3 hover:bg-blue-500 transition font-semibold' onClick={logOut}>Log out</button>
 
               </>
 

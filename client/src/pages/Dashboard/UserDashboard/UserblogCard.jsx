@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import AxiosPublic from '../../../Axios/AxiosBase';
 import Changeprivacy from './Changeprivacy';
+import AlertMessage from '../../../hooks/UseAlert';
 const UserblogCard = ({ post, refetch }) => {
     const [showFullDescription, setShowFullDescription] = useState(false);
 
@@ -13,7 +14,8 @@ const UserblogCard = ({ post, refetch }) => {
 
     const deletePost = id => {
         AxiosPublic.delete(`delete/${id}`)
-            .then(res => console.log(res.data))
+            .then(res => {           <AlertMessage title={'Delete Successful'}></AlertMessage>
+})
         refetch()
     }
    

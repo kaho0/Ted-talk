@@ -5,6 +5,7 @@ import { app } from '../../firebase/firebase.config'
 import Navbar from '../../components/Shared/Navbar/Navbar'
 import AxiosPublic from '../../Axios/AxiosBase'
 import { useState } from 'react'
+import AlertMessage from '../../hooks/UseAlert'
 
 const SignUp = () => {
   const auth = getAuth(app)
@@ -45,7 +46,12 @@ const SignUp = () => {
       .then(res => {
         console.log(user)
         AxiosPublic.post(`/users/${email}`, user)
-          .then(res => console.log(res.data))
+          .then(res => {
+           <AlertMessage title={'SignUp Successful'}></AlertMessage>
+
+
+             })
+
         console.log(res)
       })
   }

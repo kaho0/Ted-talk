@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AxiosPublic from "../../Axios/AxiosBase";
+import AlertMessage from "../../hooks/UseAlert";
 
 const ManageUsers = () => {
 
@@ -17,7 +18,8 @@ const ManageUsers = () => {
 const handledelete=(id)=>{
 AxiosPublic.delete(`/deleteuser?id=${id}`)
 
-.then(res=>console.log(res.data))
+.then(res=>{           <AlertMessage title={'Delete Successful'}></AlertMessage>
+})
 
 }
 

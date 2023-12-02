@@ -4,6 +4,7 @@
 import  { useState } from 'react';
 import Modal from 'react-modal';
 import AxiosPublic from '../../../Axios/AxiosBase';
+import AlertMessage from '../../../hooks/UseAlert';
 
 const Changeprivacy = ({ id, option, refetch }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -18,7 +19,8 @@ const Changeprivacy = ({ id, option, refetch }) => {
 
     const changeVisivility = (id) => {
         AxiosPublic.put(`updatevisivility/${id}`)
-            .then((res) => console.log(res.data))
+            .then((res) => {           <AlertMessage title={'Privacy Updated'}></AlertMessage>
+})
         refetch();
     };
 

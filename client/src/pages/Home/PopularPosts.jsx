@@ -6,7 +6,7 @@ const PopularPosts = () => {
     const [posts, setposts] = useState([])
 
     useEffect(() => {
-        AxiosPublic.get('popularposts')
+        AxiosPublic.get('/popularposts')
             .then(res => {
                 setposts(res.data)
             })
@@ -22,11 +22,10 @@ const PopularPosts = () => {
             </div>
 
             <div className="flex justify-between ">
-                {posts.map(post => <BlogCard  key={post._id} post={post}></BlogCard>)}
+                {posts?.map(post => <BlogCard  key={post._id} post={post}></BlogCard>)}
             </div>
-            <div className="text-xl font-semibold text-gray-800 mt-2 text-center hover:text-blue-500">
-                View All Blogs
-            </div>
+
+
         </div>
         </div>
     );

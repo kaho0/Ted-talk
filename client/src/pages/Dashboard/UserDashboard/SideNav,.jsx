@@ -16,6 +16,12 @@ const SideNav = () => {
                                     <span>Home</span>
                                 </li>
                             </Link>
+                            <Link to='/dash/profile'>
+                                <li className="flex items-center space-x-2">
+                                    <FaHome />
+                                    <span>Profile</span>
+                                </li>
+                            </Link>
 
                             <Link to='/dash/makeannoucement'>
                                 <li className="flex items-center space-x-2">
@@ -53,6 +59,13 @@ const SideNav = () => {
                                     <span>Home</span>
                                 </Link>
                             </li>
+
+                           <Link to='/dash/profile'>
+                                <li className="flex items-center space-x-2">
+                                    <FaHome />
+                                    <span>Profile</span>
+                                </li>
+                            </Link>
                             <li className="flex items-center space-x-2">
                                 <FaCalendar />
 

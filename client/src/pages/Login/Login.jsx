@@ -3,6 +3,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { useContext } from 'react'
 import { AuthContext } from '../../providers/AuthProvider'
 import Navbar from '../../components/Shared/Navbar/Navbar'
+import AlertMessage from '../../hooks/UseAlert'
 
 const Login = () => {
   const { signInWithGoogle, signIn } = useContext(AuthContext)
@@ -13,7 +14,12 @@ const Login = () => {
     const email = form.email.value
     const password = form.password.value
     signIn(email, password)
-      .then(res => console.log(res.data))
+      .then(res => {
+         console.log(res.data);
+        // <AlertMessage title={'Login Successful'}></AlertMessage>
+
+
+      })
   }
 
   const handleGoogleLogin = () => {

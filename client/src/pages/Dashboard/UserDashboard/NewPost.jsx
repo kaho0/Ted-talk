@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import useAuth from "../../../hooks/useAuth";
 import GetTotalposts from "../../../hooks/GetTotalposts";
 import GetCurrentUser from "../../../hooks/GetCurrentUser";
+import AlertMessage from "../../../hooks/UseAlert";
 
 const CreatePostForm = () => {
      let totalpost={}
@@ -54,7 +55,13 @@ const CreatePostForm = () => {
         AxiosPublic.post('addBlog', payload).then(res => {
             console.log(res.data);
          AxiosPublic.put(`/updatepostcounter?email=${user.email}`)
-         .then(res=>console.log(res.data))
+         .then(res=>{
+           console.log(res.data);
+           if(res.data.modifiedCount>0){
+           <AlertMessage title={'Post Successful'}></AlertMessage>}
+
+
+           })
         });
     };
 
