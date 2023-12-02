@@ -35,7 +35,7 @@ async function run() {
   const UsersDB = client.db("BlogDB").collection("UsersDB");
   const AllBlogs = client.db("AllBlogsDB").collection("AllBlogs");
   const paymentDB = client.db("AllBlogsDB").collection("goldusers");
-
+  const noticeDB = client.db("AllBlogsDB").collection("notice");
   try {
     // auth related api................................................................
     app.post('/jwt', async (req, res) => {
@@ -53,11 +53,11 @@ async function run() {
 
     const verifyToken = async (req, res, next) => {
       const token = req.cookies?.token
-      console.log(token)
+      console.log('token', token)
       if (!token) {
         return res.status(401).send({ message: 'unauthorized access' })
       }
-      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+      jwt.verify(token, process.env.Access_Token, (err, decoded) => {
         if (err) {
           console.log(err)
           return res.status(401).send({ message: 'unauthorized access' })
@@ -66,6 +66,40 @@ async function run() {
         next()
       })
     }
+
+    const verifyAdmin = async (req, res, next) => {
+
+      const email = req.user?.email;
+      const query = { email: email };
+
+      const user = await UsersDB.findOne(query);
+      const isAdmin = user?.role === 'admin';
+      if (!isAdmin) {
+        return res.status(403).send({ message: 'forbidden access' });
+      }
+      next();
+    }
+
+    app.get('/admin/:email', verifyToken, async (req, res) => {
+      const email = req.params.email;
+      if (email !== req.user.email) {
+        return res.status(403).send({ message: 'forbidden access' })
+      }
+
+      const query = { email: email };
+      const user = await UsersDB.findOne(query);
+      let admin = false;
+      if (user) {
+        admin = user?.role === 'admin';
+      }
+      res.send({ admin });
+    })
+
+
+
+
+
+
     //.........................................................................................................
 
 
@@ -111,12 +145,12 @@ async function run() {
 
     // ...........................blogs related...........................................
 
-    app.post('/addBlog', async (req, res) => {
+    app.post('/addBlog',verifyToken, async (req, res) => {
       const blog = req.body
       const result = await AllBlogs.insertOne(blog)
       res.send(result)
     })
-    app.get('/userposts', async (req, res) => {
+    app.get('/userposts',verifyToken, async (req, res) => {
       const email = req.query.email
       const query = { email: email }
       const projection = { totalposts: 1, badge: 1 }
@@ -133,15 +167,43 @@ async function run() {
 
     })
 
-    app.get('/blogs', async (req, res) => {
+    app.get('/blogs',verifyToken, async (req, res) => {
       const email = req.query.email
-      console.log(email)
       const query = { email: email }
-      console.log(query)
       const result = await AllBlogs.find(query).toArray()
       res.send(result)
 
     })
+
+    // get popular posts
+    app.get('/popularposts', async (req, res) => {
+      try {
+        const popularPosts = await AllBlogs.aggregate([
+          {
+            $addFields: {
+              voteDifference: {
+                $subtract: ["$upvotes", "$downvotes"],
+              },
+            },
+          },
+          {
+            $sort: {
+              voteDifference: -1,
+            },
+          },
+          {
+            $limit: 3,
+          },
+        ]).toArray();
+
+        console.log(popularPosts);
+        res.send(popularPosts);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+      }
+    });
+
 
 
     app.get('/recentblogs', async (req, res) => {
@@ -150,7 +212,7 @@ async function run() {
 
     });//get 3 recent blogs
 
-    app.delete('/delete/:id', async (req, res) => {
+    app.delete('/delete/:id',verifyToken, async (req, res) => {
       const id = req.params.id
       const query = { _id: new ObjectId(id) };
       const result = await AllBlogs.deleteOne(query)
@@ -191,7 +253,7 @@ async function run() {
       }
     });
 
-    app.put('updatevisivility/:id', async (req, res) => {
+    app.put('updatevisivility/:id',verifyToken, async (req, res) => {
       const option = req.body
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
@@ -206,7 +268,7 @@ async function run() {
 
     })
 
-    app.put('/addcomment/:id', async (req, res) => {
+    app.put('/addcomment/:id', verifyToken,async (req, res) => {
       try {
         const id = req.params.id;
         const commentmade = req.body;
@@ -255,6 +317,65 @@ async function run() {
       res.send(result)
 
     })
+
+    //////////////////////////////admin///////////////////////////////
+
+    app.post('/notice',verifyToken,verifyAdmin, async (req, res) => {
+      const notice = req.body
+      const result = await noticeDB.insertOne(notice)
+      res.send(result)
+    })
+
+
+    app.get('/getnotice', async (req, res) => {
+      const result = await noticeDB.find().toArray()
+      console.log(result)
+      res.send(result)
+
+    })
+
+    app.get('/allusers',verifyToken,verifyAdmin, async (req, res) => {
+      const result = await UsersDB.find().toArray()
+      res.send(result)
+
+    })
+
+    app.get('/total', async (req, res) => {
+
+      const result = await AllBlogs.aggregate([
+        {
+          $project: {
+            _id: 0,
+            blogId: "$_id",
+            upvotes: "$upvotes",
+            downvotes: "$downvotes"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            totalUpvotes: { $sum: "$upvotes" },
+            totalDownvotes: { $sum: "$downvotes" }
+          }
+        }
+      ]);
+      console.log(result)
+      res.send(result)
+
+    })
+
+
+
+
+
+
+    app.delete('/deleteuser',verifyToken,verifyAdmin, async (req, res) => {
+      const id = req.query.id
+      const query = { _id: new ObjectId(id) }
+      const rest = await UsersDB.deleteOne(query)
+      res.send(rest)
+    })
+
 
 
 
