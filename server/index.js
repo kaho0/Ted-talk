@@ -41,7 +41,6 @@ async function run() {
     app.post('/jwt', async (req, res) => {
       const user = req.body
       const token = jwt.sign(user, process.env.Access_Token, { expiresIn: '3h' })
-      console.log(token)
       res.cookie('token', token, {
         httpOnly: true,
         secure: false,
@@ -155,7 +154,6 @@ async function run() {
       const query = { email: email }
       const projection = { totalposts: 1, badge: 1 }
       const result = await UsersDB.findOne(query, { projection: { totalposts: 1, badge: 1 } });
-      console.log(result)
       res.send(result)
 
     })
@@ -196,7 +194,6 @@ async function run() {
           },
         ]).toArray();
 
-        console.log(popularPosts);
         res.send(popularPosts);
       } catch (error) {
         console.error(error);
@@ -272,11 +269,9 @@ async function run() {
       try {
         const id = req.params.id;
         const commentmade = req.body;
-        console.log(commentmade)
         const query = { _id: new ObjectId(id) };
 
         const result = await AllBlogs.updateOne(query, { $push: { comments: commentmade } });
-        console.log(result)
         if (result.modifiedCount === 0) {
           return res.status(404).json({ success: false, message: 'Blog not found' });
         }
@@ -313,7 +308,6 @@ async function run() {
 
       };
       const result = await UsersDB.updateOne(query, updateDoc);
-      console.log(result)
       res.send(result)
 
     })
@@ -329,7 +323,6 @@ async function run() {
 
     app.get('/getnotice', async (req, res) => {
       const result = await noticeDB.find().toArray()
-      console.log(result)
       res.send(result)
 
     })
@@ -359,7 +352,6 @@ async function run() {
           }
         }
       ]);
-      console.log(result)
       res.send(result)
 
     })
@@ -407,10 +399,8 @@ async function run() {
 
 
     //.......................................................................
-    await client.db('admin').command({ ping: 1 })
-    console.log(
-      'Pinged your deployment. You successfully connected to MongoDB!'
-    )
+    // await client.db('admin').command({ ping: 1 })
+
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
@@ -423,5 +413,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`StayVista is running on port ${port}`)
+  console.log(`Tagtalk is running on port ${port}`)
 })
