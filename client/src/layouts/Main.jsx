@@ -6,12 +6,13 @@ import RecentBlogs from '../pages/Home/RecentBlogs'
 import ShowAnnouncements from '../pages/Home/ShowAnnouncements'
 import PopularPosts from '../pages/Home/PopularPosts'
 import ZoomIn from '../Animations/Zoom'
+import FeatureSections from '../pages/Home/Features'
 const Main = () => {
   return (
     <div>
       <Navbar />
       <Banner></Banner>
-
+    <Container><FeatureSections></FeatureSections></Container>
 
       <ZoomIn>      <Container><RecentBlogs></RecentBlogs></Container>
       </ZoomIn>
