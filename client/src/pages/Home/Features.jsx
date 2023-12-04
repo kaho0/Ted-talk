@@ -1,20 +1,26 @@
 /* eslint-disable react/prop-types */
 
 
+
 const FeatureSections = () => {
     return (
         <div>
-            <div className=" text-black text-center mt-6 ">
-                <h1 className="text-3xl font-bold">Unleash Your Reading Experience: Explore Blogs, Engage with Users!</h1>
+            <div className=" text-black text-center mt-8 ">
+                <h1 className="text-4xl font-bold">Unleash Your Reading Experience: Explore Blogs, Engage with Users!</h1>
             </div>
 
             <div className="max-w-6xl mx-auto mt-4">
 
 
                 <div className="flex flex-col md:flex-row items-center justify-center md:justify-between mb-8">
-                    <div className="md:w-1/2 mb-4 md:mb-0 order-2 md:order-1">
-                        <img src='https://i.ibb.co/cDMD25J/7769804-3230320.jpg' className="w-[300px] h-[300px] rounded-lg ml-4" />
+
+
+                     <div className="md:w-1/2 mb-4 md:mb-0 order-2 md:order-1">
+                        <img src='https://i.ibb.co/0sW6k1K/12704404-4968851.jpg' className="w-auto h-[300px] rounded-lg ml-4" />
                     </div>
+
+
+
                     <div className="md:w-1/2 text-center md:text-left order-1 md:order-2">
                         <h2 className="text-2xl font-bold mb-4"><span className="text-4xl font-bold">Blog</span> Features</h2>
                         <p className="text-xl text-gray-700">
@@ -24,11 +30,14 @@ const FeatureSections = () => {
 
                         </p>
                     </div>
+
+
+
                 </div>
 
                 <div className="flex flex-col md:flex-row items-center justify-between md:justify-between mb-8">
                     <div className="md:w-1/2 mb-4 md:mb-0 order-1 md:order-2">
-                        <img src='https://i.ibb.co/sgZ2Yxq/13549587-5292744.jpg' className="w-auto h-[300px] rounded-lg" />
+                        <img src='https://i.ibb.co/gPYLzWX/6192594-3125988.jpg' className="w-auto h-[300px] rounded-lg" />
                     </div>
                     <div className="md:w-1/2 text-center md:text-left order-2 md:order-1">
                         <h2 className="text-2xl font-bold mb-4"><span className="text-4xl font-bold">User</span> Features</h2>

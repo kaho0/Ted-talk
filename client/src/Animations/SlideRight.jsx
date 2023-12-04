@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
-import './SlideInFromRight.css'; 
 
 const SlideInFromRight = ({ children }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -11,9 +10,11 @@ const SlideInFromRight = ({ children }) => {
 
   return (
     <div
-      className={`transform transition-transform duration-500 ease-out ${
-        isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
-      }`}
+      style={{
+        transition: 'transform 0.5s ease-out, opacity 0.5s ease-out',
+        transform: isVisible ? 'translateX(0)' : 'translateX(100%)',
+        opacity: isVisible ? 1 : 0,
+      }}
     >
       {children}
     </div>
