@@ -8,7 +8,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 import BlogActions from './BlogActions';
 import AddCommentModal from './Addcommentmodal';
-const BlogCard = ({ post }) => {
+const BlogCard = ({ post,refetch }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
 
   const toggleDescription = () => {
@@ -50,7 +50,7 @@ const BlogCard = ({ post }) => {
        </div>
 
       </div>
-      <BlogActions post={post}></BlogActions>
+      <BlogActions post={post} refetch={refetch}></BlogActions>
       <div className='ml-[150px] mb-3'>
         <AddCommentModal id={post._id}></AddCommentModal>
 
