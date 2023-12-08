@@ -11,7 +11,7 @@ const port = process.env.PORT || 8000
 
 // middleware
 const corsOptions = {
-  origin:'https://tagtalk-5e7ed.web.app',
+  origin:'http://localhost:5173',
   credentials: true,
   optionSuccessStatus: 200,
 }
@@ -31,12 +31,11 @@ const client = new MongoClient(uri, {
 })
 async function run() {
 
-  const BlogDB = client.db("BlogDB").collection("UsersDB");
   const UsersDB = client.db("BlogDB").collection("UsersDB");
   const AllBlogs = client.db("AllBlogsDB").collection("AllBlogs");
   const paymentDB = client.db("AllBlogsDB").collection("goldusers");
   const noticeDB = client.db("AllBlogsDB").collection("notice");
-  try {
+
     // auth related api................................................................
     app.post('/jwt', async (req, res) => {
       const user = req.body
@@ -52,7 +51,6 @@ async function run() {
 
     const verifyToken = async (req, res, next) => {
       const token = req.cookies?.token
-      console.log('token', token)
       if (!token) {
         return res.status(401).send({ message: 'unauthorized access' })
       }
@@ -103,23 +101,7 @@ async function run() {
 
 
 
-    // Logout
-    app.get('/logout', async (req, res) => {
-      try {
-        res
-          .clearCookie('token', {
-            maxAge: 0,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-          })
-          .send({ success: true })
-        console.log('Logout successful')
-      } catch (err) {
-        res.status(500).send(err)
-      }
-    })
 
-    // Save or modify user email, status in DB
 
 
     app.post('/users/:email', async (req, res) => {
@@ -152,7 +134,6 @@ async function run() {
     app.get('/userposts',verifyToken, async (req, res) => {
       const email = req.query.email
       const query = { email: email }
-      const projection = { totalposts: 1, badge: 1 }
       const result = await UsersDB.findOne(query, { projection: { totalposts: 1, badge: 1 } });
       res.send(result)
 
@@ -401,10 +382,7 @@ async function run() {
     //.......................................................................
     // await client.db('admin').command({ ping: 1 })
 
-  } finally {
-    // Ensures that the client will close when you finish/error
-    // await client.close();
-  }
+
 }
 run().catch(console.dir)
 
