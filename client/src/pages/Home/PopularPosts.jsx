@@ -14,8 +14,7 @@ const PopularPosts = () => {
     })
 
 
-    if (isLoading) return
-    <span className="loading loading-dots loading-lg"></span>
+    if (!data || isLoading) {return<span className="loading loading-dots loading-lg text-center"></span>}
 
 
 
