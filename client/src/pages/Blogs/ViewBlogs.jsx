@@ -4,18 +4,37 @@ import SearchSection from "../Home/SearchSection";
 import BlogCard from "./Blogcard";
 import Navbar from "../../components/Shared/Navbar/Navbar";
 import Container from "../../components/Shared/Container";
+import { useQuery } from "@tanstack/react-query";
 
 const ViewBlogs = () => {
     const [blogs, setBlogs] = useState([]);
     const [allBlogs, setAllBlogs] = useState([]);
 
-    useEffect(() => {
-        AxiosPublic.get('/allblogs')
-            .then((res) => {
-                setBlogs(res.data);
-                setAllBlogs(res.data); 
-            });
-    }, []);
+ 
+    const { data, isLoading, refetch } = useQuery({
+        queryKey: ['allblogs'],
+        queryFn: async () => {
+            const res = await AxiosPublic.get('/allblogs')
+            setAllBlogs(res.data)
+            setBlogs(res.data)
+            return res.data;
+            
+        }
+    })
+
+
+    if (!data || isLoading) {
+        return (
+            <div className="text-center">
+                <span className="loading loading-dots loading-lg"></span>
+                <p className="text-purple-500">Data loading, please refresh if the issue persists.</p>
+            </div>
+        );
+    }
+
+
+
+
 
     const handleSearch = (tag) => {
         if (!tag) {

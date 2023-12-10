@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 const RecentBlogs = () => {
 
 
-    const { data, isLoading,refetch } = useQuery({
+    const { data, isLoading, refetch } = useQuery({
         queryKey: ['recentposts'],
         queryFn: async () => {
             const res = await AxiosPublic.get('recentblogs')
@@ -15,7 +15,14 @@ const RecentBlogs = () => {
     })
 
 
-    if (!data || isLoading) {return<span className="loading loading-dots loading-lg text-center"></span>}
+    if (!data || isLoading) {
+        return (
+            <div className="text-center">
+                <span className="loading loading-dots loading-lg"></span>
+                <p className="text-purple-500">Data loading, please refresh if the issue persists.</p>
+            </div>
+        );
+    }
 
 
     return (
