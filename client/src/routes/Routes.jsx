@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
 
   {
     path: '/dash',
-    element: <Container><PrivateRoute><UserDashboard></UserDashboard></PrivateRoute></Container>,
+    element: <PrivateRoute><UserDashboard></UserDashboard></PrivateRoute>,
     errorElement: <ErrorPage />,
     children: [
       {

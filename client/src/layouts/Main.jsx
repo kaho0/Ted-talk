@@ -12,12 +12,13 @@ const Main = () => {
     <div>
       <Navbar />
       <Banner></Banner>
-    <Container><FeatureSections></FeatureSections></Container>
+      <ZoomIn>    <Container><FeatureSections></FeatureSections></Container>
+      </ZoomIn>
+      <Container><RecentBlogs></RecentBlogs></Container>
 
-      <ZoomIn>      <Container><RecentBlogs></RecentBlogs></Container>
-      </ZoomIn>
-      <ZoomIn>      <Container><PopularPosts></PopularPosts></Container>
-      </ZoomIn>
+
+      <Container><PopularPosts></PopularPosts></Container>
+
       <ShowAnnouncements></ShowAnnouncements>
 
       <Footer />

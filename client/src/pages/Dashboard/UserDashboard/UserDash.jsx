@@ -11,7 +11,7 @@ const UserDash = () => {
 
             </div>
 
-            <div className="bg-white p-8 rounded shadow h-[600px] w-[80%]">
+            <div className="bg-white p-8 rounded shadow h-[500px] w-[80%]">
                 <h1 className="text-2xl font-semibold mb-4">Welcome, {}!</h1>
 
                 <div className="items-center mb-4">

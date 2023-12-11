@@ -1,86 +1,86 @@
+// ... (other imports)
+
+import { useState } from "react";
+import useAuth from "../../../hooks/useAuth";
+import GetCurrentUser from "../../../hooks/GetCurrentUser";
+import { Link } from "react-router-dom";
 import { AiOutlineMenu } from 'react-icons/ai'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import useAuth from '../../../hooks/useAuth'
 import avatarImg from '../../../assets/images/placeholder.jpg'
-import GetCurrentUser from '../../../hooks/GetCurrentUser'
+
+// ... (other imports)
 
 const MenuDropdown = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const { user, logOut, loading } = useAuth()
-  let userdata = {}
-  userdata = GetCurrentUser()
-
+  const [isOpen, setIsOpen] = useState(false);
+  const { user, logOut } = useAuth();
+  let userdata = GetCurrentUser();
 
   return (
-    <div className='relative'>
-      <div className='flex flex-row items-center gap-3'>
-        {/* Become A Host btn */}
-        <div className='hidden md:block'>
-          <button className='disabled:cursor-not-allowed cursor-pointer hover:bg-neutral-100 py-3 px-4 text-sm font-semibold rounded-full  transition'>
-            <p>Hi,{userdata?.name}</p>
+    <div className='relative flex items-center'>
+      {/* Content for users */}
+      {user && (
+        <div className='hidden md:flex items-center space-x-3'>
+          <button className='disabled:cursor-not-allowed cursor-pointer hover:bg-neutral-100 py-3 px-4 text-sm font-semibold rounded-full transition'>
+            <p>Hi, {userdata?.name}</p>
           </button>
-          {user && <button className='px-4 py-3 hover:bg-blue-500 transition font-semibold' onClick={() => {
-            logOut()
-            userdata = {}
-          }}>Log out</button>}
-
+          <button
+            className='px-4 py-3 hover:bg-blue-500 transition font-semibold'
+            onClick={() => {
+              logOut();
+              userdata = {};
+            }}
+          >
+            Log out
+          </button>
         </div>
-        {/* Dropdown btn */}
-        <div
-          onClick={() => setIsOpen(!isOpen)}
-          className='p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition'
-        >
-          <AiOutlineMenu />
-          <div className='hidden md:block'>
-            {/* Avatar */}
-            <img
-              className='rounded-full'
-              referrerPolicy='no-referrer'
-              src={userdata && userdata?.profilepic ? userdata.profilepic : avatarImg}
-              alt='profile'
-              height='20'
-              width='30'
-            />
-          </div>
+      )}
+
+      {/* Dropdown button */}
+      <div
+        onClick={() => setIsOpen(!isOpen)}
+        className='p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 rounded-full cursor-pointer hover:shadow-md transition'
+      >
+        <AiOutlineMenu />
+        <div className='hidden md:flex flex-col items-end'>
+          {/* Avatar */}
+          <img
+            className='rounded-full'
+            referrerPolicy='no-referrer'
+            src={userdata && userdata?.profilepic ? userdata.profilepic : avatarImg}
+            alt='profile'
+            height='20'
+            width='30'
+          />
         </div>
       </div>
+
+      {/* Dropdown content */}
       {isOpen && (
-        <div className='absolute rounded-xl shadow-md w-[40vw] md:w-[10vw] bg-gray-500 overflow-hidden right-0 top-12 text-sm'>
-          <div className='flex flex-col cursor-pointer'>
-            {user ? (
-              <>
-                <Link
-                  to='/dashboard'
-                  className='px-4 py-3 hover:bg-blue-500 transition font-semibold'
-                >
-                  Dashboard
-                </Link>
+        <div className='absolute mt-2 right-0'>
+          <div className='bg-gray-500 rounded-xl shadow-md w-[40vw] md:w-[10vw] text-sm'>
+            <div className='cursor-pointer'>
+              <Link
+                to={user ? '/dashboard' : '/login'}
+                className='px-4 py-3 hover:bg-blue-500 transition font-semibold block'
+              >
+                {user ? 'Dashboard' : 'Login'}
+              </Link>
+            </div>
 
-
-              </>
-
-            ) : (
-              <>
-                <Link
-                  to='/login'
-                  className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
-                >
-                  Login
-                </Link>
+            {!user && (
+              <div className='cursor-pointer'>
                 <Link
                   to='/signup'
-                  className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                  className='px-4 py-3 hover:bg-neutral-100 transition font-semibold block'
                 >
                   Sign Up
                 </Link>
-              </>
+              </div>
             )}
           </div>
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default MenuDropdown
+export default MenuDropdown;

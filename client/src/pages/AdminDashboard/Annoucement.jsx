@@ -48,26 +48,26 @@ const Announcement = () => {
   };
 
   return (
-    <div className="w-full ml-10">
-      <h1 className="mb-4 text-2xl font-bold">Announcement</h1>
+    <div className="w-full h-full ml-10">
+      <h1 className="mb-4 text-2xl font-bold text-center">Announcement</h1>
 
       <input
         type="text"
-        className="w-full mb-4 p-2 border rounded-md"
+        className="w-[500px] mb-4 p-2 border rounded-md"
         placeholder="Title"
         value={announcementTitle}
         onChange={handleTitleChange}
       />
 
       <textarea
-        className="w-full h-32 mb-4 p-2 border rounded-md"
+        className="w-[500px] h-32 mb-4 p-2 border rounded-md"
         placeholder="Type your announcement here..."
         value={announcementText}
         onChange={handleInputChange}
       />
 
       <button
-        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
+        className="px-4 py-2 mt-10 bg-blue-500 text-white rounded-md hover:bg-blue-700"
         onClick={() => {
           handleTimeChange();
           submitAnnouncement();
